@@ -53,41 +53,41 @@ services:
       - REPLICATION_SSLMODE=
 
 
-  cmsindex1:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.6.1
-    container_name: chembience-cmsindex1
-    environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - cmsindex1_volume:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-    networks:
-      - sphere
-
-
-  cmsindex2:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.6.1
-    container_name: chembience-cmsindex2
-    environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "discovery.zen.ping.unicast.hosts=elasticsearch"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - cmsindex2_volume:/usr/share/elasticsearch/data
-    networks:
-      - sphere
+#  cmsindex1:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:6.6.1
+#    container_name: chembience-cmsindex1
+#    environment:
+#      - cluster.name=docker-cluster
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - cmsindex1_volume:/usr/share/elasticsearch/data
+#    ports:
+#      - 9200:9200
+#    networks:
+#      - sphere
+#
+#
+#  cmsindex2:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:6.6.1
+#    container_name: chembience-cmsindex2
+#    environment:
+#      - cluster.name=docker-cluster
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#      - "discovery.zen.ping.unicast.hosts=elasticsearch"
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - cmsindex2_volume:/usr/share/elasticsearch/data
+#    networks:
+#      - sphere
 
 volumes:
   cmsdb_volume:
