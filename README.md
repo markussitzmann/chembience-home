@@ -1,2 +1,4 @@
-# chembience-wagtail-cms
-Wagtail CMS preconfigured on a Chembience Django container
+Chembience Home
+===============
+
+Repository for the Chembience Home page.
