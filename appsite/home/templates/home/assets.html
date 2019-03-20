@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load static wagtailcore_tags %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static "story/assets/css/main.css" %}"/>
+{% endblock %}
+
+{% block body_class %}is-preload{% endblock %}
+
+{% block content %}{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static "story/assets/js/jquery.min.js" %}"></script>
+    <script src="{% static "story/assets/js/jquery.scrollex.min.js" %}"></script>
+    <script src="{% static "story/assets/js/jquery.scrolly.min.js" %}"></script>
+    <script src="{% static "story/assets/js/browser.min.js" %}"></script>
+    <script src="{% static "story/assets/js/breakpoints.min.js" %}"></script>
+    <script src="{% static "story/assets/js/util.js" %}"></script>
+    <script src="{% static "story/assets/js/main.js" %}"></script>
+{% endblock %}
