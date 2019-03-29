@@ -6,12 +6,91 @@ from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
+from wagtail.snippets.models import register_snippet
 
 from base.blocks import BaseStreamBlock
+
+from home.sitedefaults import style_choices, orientation_choices, content_align_choices, image_position_choices, \
+    onload_fade_choices, onscroll_fade_choices, color_choices
 
 
 class HomePage(Page):
     pass
+
+
+@register_snippet
+class SpotlightOptions(models.Model):
+    """"""
+
+    name = models.CharField(
+        max_length=25,
+        primary_key=True,
+        default="Spotlight1"
+    )
+    style = models.CharField(
+        max_length=25,
+        choices=style_choices,
+        default="No. 1"
+    )
+    orientation = models.CharField(
+        max_length=25,
+        choices=orientation_choices,
+        default="orient-right"
+    )
+    content_align = models.CharField(
+        max_length=25,
+        choices=content_align_choices,
+        default="content-align-left",
+        null=True,
+        blank=True
+    )
+    color = models.CharField(
+        max_length=25,
+        choices=color_choices,
+        default="color0",
+        null=True, blank=True
+    )
+    image_position = models.CharField(
+        max_length=25,
+        choices=image_position_choices,
+        null=True,
+        blank=True
+    )
+    onload_fade = models.CharField(
+        max_length=25,
+        choices=onload_fade_choices,
+        null=True,
+        blank=True
+    )
+    onscroll_fade = models.CharField(
+        max_length=25,
+        choices=onscroll_fade_choices,
+        null=True,
+        blank=True
+    )
+    color_choices = models.CharField(
+        max_length=25,
+        choices=color_choices,
+        null=True,
+        blank=True
+    )
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('style'),
+        FieldPanel('orientation'),
+        FieldPanel('color'),
+        FieldPanel('content_align'),
+        FieldPanel('image_position'),
+        FieldPanel('onload_fade'),
+        FieldPanel('onscroll_fade'),
+    ]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Spotlight options"
 
 
 class SpotlightPage(Page):
@@ -27,11 +106,18 @@ class SpotlightPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-
+    options = models.ForeignKey(
+        'home.SpotlightOptions',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('image'),
         StreamFieldPanel('content'),
+        FieldPanel('options'),
     ]
 
     search_fields = Page.search_fields + [
@@ -76,8 +162,3 @@ class SpotlightIndexPage(Page):
         spotlights = self.paginate(request, self.get_spotlights())
         context['spotlights'] = spotlights
         return context
-
-
-
-
-
