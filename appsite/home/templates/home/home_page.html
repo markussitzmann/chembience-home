@@ -1,21 +1,11 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block body_class %}template-homepage{% endblock %}
-
-{% block extra_css %}
-
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-<link rel="stylesheet" href="{% static 'css/welcome_page.css' %}">
-{% endblock extra_css %}
+{% extends "home/assets.html" %}
 
 {% block content %}
-
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-{% include 'home/welcome_page.html' %}
-
+    <div id="wrapper" class="divided">
+        {% if page.section_1 %}
+        {% for spotlight in page.section_1.specific.children %}
+            {% include "home/spotlight_page.html" with content=spotlight.content image=spotlight.image options=spotlight.options %}
+        {% endfor %}
+        {% endif %}
+    </div>
 {% endblock content %}

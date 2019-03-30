@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import models
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, PageChooserPanel
 from wagtail.core.fields import StreamField
 
 from wagtail.core.models import Page
@@ -12,10 +12,6 @@ from base.blocks import BaseStreamBlock
 
 from home.sitedefaults import style_choices, orientation_choices, content_align_choices, image_position_choices, \
     onload_fade_choices, onscroll_fade_choices, color_choices
-
-
-class HomePage(Page):
-    pass
 
 
 @register_snippet
@@ -93,6 +89,33 @@ class SpotlightOptions(models.Model):
         verbose_name_plural = "Spotlight options"
 
 
+class HomePage(Page):
+
+    section_1_headline = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+    section_1 = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Featured section 1'
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('section_1_headline'),
+        PageChooserPanel('section_1'),
+    ]
+
+    subpage_types = ['SpotlightIndexPage']
+
+    def __str__(self):
+        return self.headline
+
+
 class SpotlightPage(Page):
     """ """
 
@@ -138,6 +161,7 @@ class SpotlightIndexPage(Page):
         FieldPanel('introduction', classname="full"),
     ]
 
+    parent_page_types = ['HomePage']
     subpage_types = ['SpotlightPage']
 
     def get_spotlights(self):
@@ -162,3 +186,6 @@ class SpotlightIndexPage(Page):
         spotlights = self.paginate(request, self.get_spotlights())
         context['spotlights'] = spotlights
         return context
+
+
+
