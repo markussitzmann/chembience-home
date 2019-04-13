@@ -89,31 +89,65 @@ class SpotlightOptions(models.Model):
         verbose_name_plural = "Spotlight options"
 
 
-class HomePage(Page):
+class SectionPage(Page):
+    """"""
+    header = models.CharField(max_length=255)
+    content = StreamField(
+        BaseStreamBlock(), verbose_name="Page Content", blank=True
+    )
 
-    section_1_headline = models.CharField(
+    content_panels = Page.content_panels + [
+        FieldPanel('header'),
+        StreamFieldPanel('content'),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('content'),
+    ]
+
+    parent_page_types = ['SectionIndexPage']
+
+
+class SectionIndexPage(Page):
+    """"""
+    headline = models.CharField(
         null=True,
         blank=True,
         max_length=255,
     )
-    section_1 = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name='Featured section 1'
-    )
+    introduction = models.TextField(
+        help_text='Text to describe the page',
+        blank=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel('section_1_headline'),
-        PageChooserPanel('section_1'),
+        FieldPanel('introduction', classname="full"),
     ]
 
-    subpage_types = ['SpotlightIndexPage']
+    parent_page_types = ['HomePage']
+    subpage_types = ['SectionPage']
 
-    def __str__(self):
-        return self.headline
+    def get_sections(self):
+        return SectionPage.objects.live().descendant_of(self).order_by('-first_published_at')
+
+    def children(self):
+        return self.get_children().specific().live()
+
+    def paginate(self, request, *args):
+        page = request.GET.get('page')
+        paginator = Paginator(self.get_sections(), 12)
+        try:
+            pages = paginator.page(page)
+        except PageNotAnInteger:
+            pages = paginator.page(1)
+        except EmptyPage:
+            pages = paginator.page(paginator.num_pages)
+        return pages
+
+    def get_context(self, request):
+        context = super(SectionIndexPage, self).get_context(request)
+        sections = self.paginate(request, self.get_sections())
+        context['sections'] = sections
+        return context
 
 
 class SpotlightPage(Page):
@@ -188,4 +222,29 @@ class SpotlightIndexPage(Page):
         return context
 
 
+class HomePage(Page):
+
+    section_1_headline = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+    section_1 = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Featured section 1'
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('section_1_headline'),
+        PageChooserPanel('section_1'),
+    ]
+
+    subpage_types = ['SpotlightIndexPage', 'SectionIndexPage']
+
+    def __str__(self):
+        return self.headline
 

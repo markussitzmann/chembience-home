@@ -1,4 +1,6 @@
-django==2.1
+django>=2.1.6
 django-extensions
+django-htmlmin
 wagtail==2.4
+wagtailfontawesome
 elasticsearch>=6.0.0,<6.6.1

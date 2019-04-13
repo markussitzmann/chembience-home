@@ -1,14 +1,15 @@
+from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.core.blocks import (
     CharBlock, ChoiceBlock, RichTextBlock, StreamBlock, StructBlock, TextBlock,
 )
 
+from home.sitedefaults import headline_size_choices
+
 
 class ImageBlock(StructBlock):
     """
-    Custom `StructBlock` for utilizing images with associated caption and
-    attribution data
     """
     image = ImageChooserBlock(required=True)
     caption = CharBlock(required=False)
@@ -21,15 +22,9 @@ class ImageBlock(StructBlock):
 
 class HeadingBlock(StructBlock):
     """
-    Custom `StructBlock` that allows the user to select h2 - h4 sizes for headers
     """
     heading_text = CharBlock(classname="title", required=True)
-    size = ChoiceBlock(choices=[
-        ('', 'Select a header size'),
-        ('h2', 'H2'),
-        ('h3', 'H3'),
-        ('h4', 'H4')
-    ], blank=True, required=False)
+    size = ChoiceBlock(choices=headline_size_choices, blank=True, required=False)
 
     class Meta:
         icon = "title"
@@ -38,7 +33,6 @@ class HeadingBlock(StructBlock):
 
 class BlockQuote(StructBlock):
     """
-    Custom `StructBlock` that allows the user to attribute a quote to the author
     """
     text = TextBlock()
     attribute_name = CharBlock(
@@ -49,10 +43,9 @@ class BlockQuote(StructBlock):
         template = "blocks/blockquote.html"
 
 
-# StreamBlocks
+#
 class BaseStreamBlock(StreamBlock):
     """
-    Define the custom blocks that `StreamField` will utilize
     """
     heading_block = HeadingBlock()
     paragraph_block = RichTextBlock(
@@ -65,3 +58,18 @@ class BaseStreamBlock(StreamBlock):
         help_text='Insert an embed URL e.g https://www.youtube.com/embed/SGJFWirQ3ks',
         icon="fa-s15",
         template="blocks/embed_block.html")
+    table = TableBlock(
+        default_table_options={
+            'minSpareRows': 0,
+            'startRows': 3,
+            'startCols': 3,
+            'colHeaders': False,
+            'rowHeaders': False,
+            'contextMenu': True,
+            'editor': 'text',
+            'stretchH': 'all',
+            'height': 108,
+            'renderer': 'text',
+            'autoColumnSize': False,
+        }
+    )
