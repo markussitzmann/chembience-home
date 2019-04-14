@@ -3,4 +3,5 @@ django-extensions
 django-htmlmin
 wagtail==2.4
 wagtailfontawesome
+wagtailcodeblock
 elasticsearch>=6.0.0,<6.6.1

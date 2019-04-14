@@ -3,12 +3,19 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.core.blocks import (
     CharBlock, ChoiceBlock, RichTextBlock, StreamBlock, StructBlock, TextBlock,
-)
+    BooleanBlock)
+from wagtailcodeblock.blocks import CodeBlock
 
 from home.sitedefaults import headline_size_choices
 
 
-class ImageBlock(StructBlock):
+class StrucBlockWithSeparator(StructBlock):
+    """
+    """
+    separator = BooleanBlock(default=False, required=False)
+
+
+class ImageBlock(StrucBlockWithSeparator):
     """
     """
     image = ImageChooserBlock(required=True)
@@ -20,7 +27,7 @@ class ImageBlock(StructBlock):
         template = "blocks/image_block.html"
 
 
-class HeadingBlock(StructBlock):
+class HeadingBlock(StrucBlockWithSeparator):
     """
     """
     heading_text = CharBlock(classname="title", required=True)
@@ -31,7 +38,7 @@ class HeadingBlock(StructBlock):
         template = "blocks/heading_block.html"
 
 
-class BlockQuote(StructBlock):
+class BlockQuote(StrucBlockWithSeparator):
     """
     """
     text = TextBlock()
@@ -43,7 +50,6 @@ class BlockQuote(StructBlock):
         template = "blocks/blockquote.html"
 
 
-#
 class BaseStreamBlock(StreamBlock):
     """
     """
@@ -73,3 +79,4 @@ class BaseStreamBlock(StreamBlock):
             'autoColumnSize': False,
         }
     )
+    code = CodeBlock(label='Code')

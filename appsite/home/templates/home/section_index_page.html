@@ -5,11 +5,11 @@
 {% block content %}
     <section class="wrapper style1 align-center">
         <div class="inner">
-            <h2>H2{{ section.headline }}</h2>
-            <p>II{{ section.introduction }}</p>
+            <h2>{{ section.headline }}</h2>
+            <p>{{ section.introduction }}</p>
             <div class="index align-left">
                 {% for section in sections %}
-                    {% include "home/section_page.html" with header=section.header content=section.content %}
+                    {% include "home/section_include_page.html" with header=section.header content=section.content %}
                 {% endfor %}
             </div>
         </div>

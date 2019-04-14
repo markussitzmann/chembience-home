@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'wagtail.core',
 
     'wagtailfontawesome',
+    'wagtailcodeblock',
 
     'modelcluster',
     'taggit',
@@ -182,3 +183,5 @@ BASE_URL = 'http://example.com'
 
 
 #HTML_MINIFY = True
+
+WAGTAIL_CODE_BLOCK_THEME = None

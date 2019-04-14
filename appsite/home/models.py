@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import models
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, PageChooserPanel
-from wagtail.core.fields import StreamField
+from wagtail.core.fields import StreamField, RichTextField
 
 from wagtail.core.models import Page
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -87,6 +87,35 @@ class SpotlightOptions(models.Model):
 
     class Meta:
         verbose_name_plural = "Spotlight options"
+
+
+class BannerPage(Page):
+    """"""
+    header = models.CharField(max_length=127)
+    major = RichTextField(verbose_name="Major Text", blank=True)
+    minor = RichTextField(verbose_name="Minor Text", blank=True)
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('header'),
+        FieldPanel('major'),
+        FieldPanel('minor'),
+        ImageChooserPanel('image'),
+
+    ]
+
+    parent_page_types = ['HomePage']
+
+    def get_context(self, request):
+        context = super(BannerPage, self).get_context(request)
+        context['banner'] = self
+        return context
 
 
 class SectionPage(Page):
@@ -223,6 +252,7 @@ class SpotlightIndexPage(Page):
 
 
 class HomePage(Page):
+    """ """
 
     section_1_headline = models.CharField(
         null=True,
@@ -243,7 +273,7 @@ class HomePage(Page):
         PageChooserPanel('section_1'),
     ]
 
-    subpage_types = ['SpotlightIndexPage', 'SectionIndexPage']
+    subpage_types = ['BannerPage', 'SpotlightIndexPage', 'SectionIndexPage']
 
     def __str__(self):
         return self.headline

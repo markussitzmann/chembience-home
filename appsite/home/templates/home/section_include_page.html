@@ -1,0 +1,15 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<section>
+    <header>
+        <h3>{{ header }}</h3>
+    </header>
+    <div class="content">
+        {% if separator %}
+            <hr/>
+        {% endif %}
+        {% for block in content %}
+            {% include_block block %}
+        {% endfor %}
+    </div>
+</section>

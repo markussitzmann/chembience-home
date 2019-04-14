@@ -1,0 +1,19 @@
+{% extends "home/assets.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+    <section class="banner style1 orient-left content-align-left image-position-right fullscreen onload-image-fade-in onload-content-fade-right">
+
+        <div class="content">
+            <h1>{{ banner.header }}</h1>
+            {{ banner.major|richtext }}
+            {{ banner.minor|richtext }}
+        </div>
+
+        <div class="image">
+            <img src="images/banner.jpg" alt=""/>
+        </div>
+
+    </section>
+{% endblock %}

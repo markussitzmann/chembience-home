@@ -1,5 +1,9 @@
 {% load wagtailimages_tags %}
 
+{% if self.separator %}
+    <hr/>
+{% endif %}
+
 <figure>
     {% image self.image fill-600x600 %}
     <figcaption>{{ self.caption }} - {{ self.attribution }}</figcaption>

@@ -1,13 +1,27 @@
+{% extends "home/assets.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<!--<section class="spotlight style1 orient-right content-align-left image-position-center onscroll-image-fade-in"-->
-<section>
-    <header>
-        <h3>{{ header }}</h3>
-    </header>
-    <div class="content">
-    {% for block in content %}
-        {% include_block block %}
-    {% endfor %}
-    </div>
-</section>
+{% block content %}
+
+    <section class="wrapper style1 align-center">
+
+        <div class="inner">
+
+            <div class="index align-left">
+                <section>
+                    <header>
+                        <h3>{{ page.header }}</h3>
+                    </header>
+                    <div class="content">
+                        {% for block in page.content %}
+                            {% include_block block %}
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
+
+        </div>
+
+    </section>
+
+{% endblock %}
