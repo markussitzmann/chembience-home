@@ -15,7 +15,7 @@ from home.sitedefaults import style_choices, orientation_choices, content_align_
 
 
 @register_snippet
-class SpotlightOptions(models.Model):
+class VisualStyleOptions(models.Model):
     """"""
 
     name = models.CharField(
@@ -101,13 +101,20 @@ class BannerPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    options = models.ForeignKey(
+        'home.VisualStyleOptions',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel('header'),
         FieldPanel('major'),
         FieldPanel('minor'),
         ImageChooserPanel('image'),
-
+        FieldPanel('options'),
     ]
 
     parent_page_types = ['HomePage']
@@ -193,7 +200,7 @@ class SpotlightPage(Page):
         related_name='+'
     )
     options = models.ForeignKey(
-        'home.SpotlightOptions',
+        'home.VisualStyleOptions',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
