@@ -32,7 +32,7 @@ services:
 
 
   cmsdb:
-    image: chembience/db:${CHEMBIENCE_VERSION}
+    image: chembience/db:0.2.8
     container_name: chembience-cmsdb
     volumes:
       - cmsdb_volume:/var/lib/postgresql
