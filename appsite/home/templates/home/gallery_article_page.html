@@ -1,0 +1,24 @@
+{% extends "home/assets.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+    <section class="wrapper style1 align-center">
+        <div class="gallery style2 medium lightbox onscroll-fade-in">
+            <article>
+                {% image page.image fill-1000x1000-c100 as image %}
+                <a href="{{ image.url }}" class="image">
+                    <img src="{{ image.url }}" alt="{{ image.alt }}" />
+                </a>
+                <div class="caption">
+                    <h3>{{ page.headline }}</h3>
+                    {{ page.text|richtext }}
+                    <ul class="actions fixed">
+                        <li><span class="button small">Details</span></li>
+                    </ul>
+                </div>
+            </article>
+        </div>
+    </section>
+{% endblock %}
+
+

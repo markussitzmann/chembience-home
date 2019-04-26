@@ -177,11 +177,12 @@ WAGTAIL_SITE_NAME = "appsite"
 #     }
 # }
 
+WAGTAILIMAGES_MAX_UPLOAD_SIZE = 20 * 1024 * 1024  # i.e. 20MB
+
+WAGTAIL_CODE_BLOCK_THEME = None
+
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'http://example.com'
 
-
 #HTML_MINIFY = True
-
-WAGTAIL_CODE_BLOCK_THEME = None

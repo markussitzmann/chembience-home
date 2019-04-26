@@ -258,6 +258,81 @@ class SpotlightIndexPage(Page):
         return context
 
 
+class GalleryArticlePage(Page):
+    """"""
+    headline = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+    text = models.TextField(
+        help_text='Text to describe the page',
+        blank=True)
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('headline'),
+        FieldPanel('text'),
+        ImageChooserPanel('image')
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('text'),
+    ]
+
+    parent_page_types = ['GalleryPage']
+
+
+class GalleryPage(Page):
+    """"""
+    headline = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+    introduction = models.TextField(
+        help_text='Text to describe the page',
+        blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('headline', classname="full"),
+        FieldPanel('introduction', classname="full"),
+    ]
+
+    parent_page_types = ['HomePage']
+    subpage_types = ['GalleryArticlePage']
+
+    def get_articles(self):
+        return GalleryArticlePage.objects.live().descendant_of(self).order_by('-first_published_at')
+
+    def children(self):
+        return self.get_children().specific().live()
+
+    def paginate(self, request, *args):
+        page = request.GET.get('page')
+        paginator = Paginator(self.get_articles(), 12)
+        try:
+            pages = paginator.page(page)
+        except PageNotAnInteger:
+            pages = paginator.page(1)
+        except EmptyPage:
+            pages = paginator.page(paginator.num_pages)
+        return pages
+
+    def get_context(self, request):
+        context = super(GalleryPage, self).get_context(request)
+        articles = self.paginate(request, self.get_articles())
+        context['gallery'] = self
+        context['articles'] = articles
+        return context
+
+
 class HomePage(Page):
     """ """
 
@@ -280,7 +355,7 @@ class HomePage(Page):
         PageChooserPanel('section_1'),
     ]
 
-    subpage_types = ['BannerPage', 'SpotlightIndexPage', 'SectionIndexPage']
+    subpage_types = ['BannerPage', 'SpotlightIndexPage', 'SectionIndexPage', 'GalleryPage']
 
     def __str__(self):
         return self.headline
