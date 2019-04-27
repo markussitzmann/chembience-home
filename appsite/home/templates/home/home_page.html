@@ -4,7 +4,7 @@
     <div id="wrapper" class="divided">
         {% if page.section_1 %}
         {% for spotlight in page.section_1.specific.children %}
-            {% include "home/spotlight_page.html" with content=spotlight.content image=spotlight.image options=spotlight.options %}
+            {% include "home/spotlight_include_page.html" with content=spotlight.content image=spotlight.image options=spotlight.options %}
         {% endfor %}
         {% endif %}
     </div>

@@ -1,0 +1,13 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<section class="spotlight {{ options.style }} {{ options.orientation }} {{ options.content_align }} {{ options.color }} {{ options.image_position }} {{ options.onload_fade }} {{ options.onscroll_fade }}" id="first">
+    <div class="content">
+        {{ content }}
+        <ul class="actions stacked">
+            <li><a href="#" class="button">Learn More</a></li>
+        </ul>
+    </div>
+    <div class="image">{% image image fill-800x400-c100 as image %}
+        <img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" alt="{{ image.alt }}" class=""/>
+    </div>
+</section>

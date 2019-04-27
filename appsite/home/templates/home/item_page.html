@@ -1,0 +1,16 @@
+{% extends "home/assets.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+    <section class="wrapper style1 align-center">
+        <div class="inner">
+            <div class="items style1 medium onscroll-fade-in">
+                <section>
+                    <span class="icon style2 major fa-diamond"></span>
+                    <h3>{{ item.headline }}</h3>
+                    {{ item.text }}
+                </section>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -5,7 +5,7 @@
 {% block content %}
     <div id="wrapper" class="divided">
         {% for spotlight in spotlights %}
-            {% include "home/spotlight_page.html" with content=spotlight.content image=spotlight.image options=spotlight.options %}
+            {% include "home/spotlight_include_page.html" with content=spotlight.content image=spotlight.image options=spotlight.options %}
         {% endfor %}
     </div>
 {% endblock %}

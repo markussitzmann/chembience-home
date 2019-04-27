@@ -7,10 +7,10 @@
             <div class="index align-left">
                 <section>
                     <header>
-                        <h3>{{ page.header }}</h3>
+                        <h3>{{ section.header }}</h3>
                     </header>
                     <div class="content">
-                        {% for block in page.content %}
+                        {% for block in section.content %}
                             {% include_block block %}
                         {% endfor %}
                     </div>
