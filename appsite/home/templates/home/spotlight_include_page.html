@@ -1,6 +1,6 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<section class="spotlight {{ options.style }} {{ options.orientation }} {{ options.content_align }} {{ options.color }} {{ options.image_position }} {{ options.onload_fade }} {{ options.onscroll_fade }}" id="first">
+<section class="spotlight {{ options.style }} {{ options.orientation }} {{ options.content_align }} {{ options.color }} {{ options.image_position }} {{ options.onload_fade }} {{ options.onscroll_fade }}" {% if first %}id="first"{% endif %}>
     <div class="content">
         {{ content }}
         <ul class="actions stacked">

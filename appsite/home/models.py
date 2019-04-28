@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import models
 from modelcluster.fields import ParentalKey
+from modelcluster.models import ClusterableModel
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, PageChooserPanel, InlinePanel
 from wagtail.core.fields import StreamField, RichTextField
 
@@ -18,9 +19,11 @@ from home.sitedefaults import style_choices, orientation_choices, content_align_
 
 @register_snippet
 class ActionButton(models.Model):
+
     SIZE_CHOICES = (
         ('', 'Default'),
         ('small', 'Small'),
+        ('large', 'Large'),
     )
 
     name = models.CharField(max_length=255)
@@ -40,6 +43,40 @@ class ActionButton(models.Model):
         if self.size:
             button_string = button_string + ", " + self.size
         return button_string
+
+
+@register_snippet
+class ActionButtonGroup(ClusterableModel, models.Model):
+
+    name = models.CharField(max_length=255)
+    small = models.BooleanField(verbose_name="Small Buttons", default=False)
+    stacked = models.BooleanField(verbose_name="Stacked Buttons", default=False)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('small'),
+        FieldPanel('stacked'),
+        InlinePanel('actions', label="Actions"),
+    ]
+
+    def __str__(self):
+        return self.name
+
+
+class ActionButtonGroupMember(Orderable, models.Model):
+
+    group = ParentalKey('home.ActionButtonGroup', on_delete=models.CASCADE, related_name='actions')
+    button = models.ForeignKey('home.ActionButton', on_delete=models.CASCADE, related_name='+')
+
+    class Meta:
+        verbose_name = "action button group"
+
+    panels = [
+        SnippetChooserPanel('button'),
+    ]
+
+    def __str__(self):
+        return self.group.name + " -> " + self.button.name
 
 
 
@@ -137,6 +174,13 @@ class BannerPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    button_group = models.ForeignKey(
+        'home.ActionButtonGroup',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel('header'),
@@ -144,7 +188,7 @@ class BannerPage(Page):
         FieldPanel('minor'),
         ImageChooserPanel('image'),
         FieldPanel('options'),
-        InlinePanel('actions', label="Actions"),
+        FieldPanel('button_group'),
     ]
 
     parent_page_types = ['HomePage']
@@ -156,20 +200,24 @@ class BannerPage(Page):
         return context
 
 
-class BannerPageActionButtons(Orderable, models.Model):
-    page = ParentalKey('home.BannerPage', on_delete=models.CASCADE, related_name='actions')
-    button = models.ForeignKey('home.ActionButton', on_delete=models.CASCADE, related_name='+')
 
-    class Meta:
-        verbose_name = "action button"
-        verbose_name_plural = "action buttons"
 
-    panels = [
-        SnippetChooserPanel('button'),
-    ]
 
-    def __str__(self):
-        return self.page.title + " -> " + self.button.name
+# class BannerPageActionButtons(Orderable, models.Model):
+#     page = ParentalKey('home.BannerPage', on_delete=models.CASCADE, related_name='actions')
+#     button = models.ForeignKey('home.ActionButton', on_delete=models.CASCADE, related_name='+')
+#
+#     class Meta:
+#         verbose_name = "action button"
+#         verbose_name_plural = "action buttons"
+#
+#     panels = [
+#         SnippetChooserPanel('button'),
+#     ]
+#
+#     def __str__(self):
+#         return self.page.title + " -> " + self.button.name
+
 
 
 class SectionPage(Page):
@@ -472,7 +520,6 @@ class ItemIndexPage(Page):
 
 class HomePage(Page):
     """ """
-
     section_1_headline = models.CharField(
         null=True,
         blank=True,
