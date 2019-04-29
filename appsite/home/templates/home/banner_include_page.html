@@ -1,0 +1,27 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div id="wrapper" class="divided">
+    {% with banner.options as options %}
+        <section
+                class="banner fullscreen {{ options.style }} {{ options.orientation }} {{ options.content_align }} {{ options.color }} {{ options.image_position }} {{ options.onload_fade }} {{ options.onscroll_fade }}">
+
+            <div class="content">
+                <h1>{{ banner.header }}</h1>
+                {{ banner.major|richtext }}
+                {{ banner.minor|richtext }}
+                <ul class="actions stacked">
+                    {% for action in banner.button_group.actions.all %}
+                        <li><a href="{{ action.button.url }}"
+                               class="button {{ action.button.size }} wide smooth-scroll-middle">{{ action.button.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="image">{% image banner.image fill-1920x1080 as image %}
+                <img src="{{ image.url }}" alt="{{ image.alt }}" class=""/>
+            </div>
+
+        </section>
+    {% endwith %}
+</div>

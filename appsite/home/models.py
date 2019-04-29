@@ -200,26 +200,6 @@ class BannerPage(Page):
         return context
 
 
-
-
-
-# class BannerPageActionButtons(Orderable, models.Model):
-#     page = ParentalKey('home.BannerPage', on_delete=models.CASCADE, related_name='actions')
-#     button = models.ForeignKey('home.ActionButton', on_delete=models.CASCADE, related_name='+')
-#
-#     class Meta:
-#         verbose_name = "action button"
-#         verbose_name_plural = "action buttons"
-#
-#     panels = [
-#         SnippetChooserPanel('button'),
-#     ]
-#
-#     def __str__(self):
-#         return self.page.title + " -> " + self.button.name
-
-
-
 class SectionPage(Page):
     """"""
     header = models.CharField(max_length=255)
@@ -520,27 +500,31 @@ class ItemIndexPage(Page):
 
 class HomePage(Page):
     """ """
-    section_1_headline = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-    )
-    section_1 = models.ForeignKey(
+    banner_page = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        verbose_name='Featured section 1'
+        verbose_name='Banner'
+    )
+
+    section_index_page = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Sections'
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel('section_1_headline'),
-        PageChooserPanel('section_1'),
+        PageChooserPanel('banner_page', 'home.BannerPage'),
+        PageChooserPanel('section_index_page', 'home.SectionIndexPage'),
     ]
 
     subpage_types = ['BannerPage', 'GalleryPage', 'ItemIndexPage', 'SpotlightIndexPage', 'SectionIndexPage']
 
     def __str__(self):
-        return self.headline
+        return self.banner_page
 

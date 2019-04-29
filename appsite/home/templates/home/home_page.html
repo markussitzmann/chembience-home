@@ -2,10 +2,27 @@
 
 {% block content %}
     <div id="wrapper" class="divided">
+
+        {% if page.banner_page %}
+
+            {% include "home/banner_include_page.html" with banner=page.banner_page.specific %}
+
+        {% endif %}
+
+
+        {% if page.section_index_page %}
+
+            {% include "home/section_index_include_page.html" with section=page.section_index_page.specific sections=page.section_index_page.specific.children %}
+
+        {% endif %}
+
+
+        {% comment %}
         {% if page.section_1 %}
         {% for spotlight in page.section_1.specific.children %}
             {% include "home/spotlight_include_page.html" with content=spotlight.content image=spotlight.image options=spotlight.options %}
         {% endfor %}
         {% endif %}
+        {% endcomment %}
     </div>
 {% endblock content %}
