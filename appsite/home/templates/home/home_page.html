@@ -9,20 +9,20 @@
 
         {% endif %}
 
+        {% if page.spotlight_index_page %}
+
+            {% include "home/spotlight_index_include_page.html" with spotlight_index=page.spotlight_index_page.specific spotlights=page.spotlight_index_page.specific.children %}
+
+        {% endif %}
+
 
         {% if page.section_index_page %}
 
-            {% include "home/section_index_include_page.html" with section=page.section_index_page.specific sections=page.section_index_page.specific.children %}
+            {% include "home/section_index_include_page.html" with section_index=page.section_index_page.specific sections=page.section_index_page.specific.children %}
 
         {% endif %}
 
 
-        {% comment %}
-        {% if page.section_1 %}
-        {% for spotlight in page.section_1.specific.children %}
-            {% include "home/spotlight_include_page.html" with content=spotlight.content image=spotlight.image options=spotlight.options %}
-        {% endfor %}
-        {% endif %}
-        {% endcomment %}
+
     </div>
 {% endblock content %}

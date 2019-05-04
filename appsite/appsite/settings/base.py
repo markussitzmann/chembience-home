@@ -80,6 +80,8 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(PROJECT_DIR, 'templates'),
+            'home/templates',
+            'wagtailcodeblock/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -153,6 +155,7 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'static'),
+    'wagtailcodeblock/static'
 ]
 
 STATIC_ROOT = os.path.join("/home/app", 'static')

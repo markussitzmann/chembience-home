@@ -243,7 +243,7 @@ class SectionIndexPage(Page):
     subpage_types = ['SectionPage']
 
     def get_sections(self):
-        return SectionPage.objects.live().descendant_of(self).order_by('-first_published_at')
+        return SectionPage.objects.live().descendant_of(self)
 
     def children(self):
         return self.get_children().specific().live()
@@ -321,7 +321,7 @@ class SpotlightIndexPage(Page):
     subpage_types = ['SpotlightPage']
 
     def get_spotlights(self):
-        return SpotlightPage.objects.live().descendant_of(self).order_by('-first_published_at')
+        return SpotlightPage.objects.live().descendant_of(self)
 
     def children(self):
         return self.get_children().specific().live()
@@ -401,7 +401,7 @@ class GalleryPage(Page):
     subpage_types = ['GalleryArticlePage']
 
     def get_articles(self):
-        return GalleryArticlePage.objects.live().descendant_of(self).order_by('-first_published_at')
+        return GalleryArticlePage.objects.live().descendant_of(self)
 
     def children(self):
         return self.get_children().specific().live()
@@ -509,6 +509,15 @@ class HomePage(Page):
         verbose_name='Banner'
     )
 
+    spotlight_index_page = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Spotlights'
+    )
+
     section_index_page = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
@@ -520,6 +529,7 @@ class HomePage(Page):
 
     content_panels = Page.content_panels + [
         PageChooserPanel('banner_page', 'home.BannerPage'),
+        PageChooserPanel('spotlight_index_page', 'home.SpotlightIndexPage'),
         PageChooserPanel('section_index_page', 'home.SectionIndexPage'),
     ]
 

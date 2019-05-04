@@ -4,8 +4,8 @@
 {% load wagtailuserbar %}
 
 {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'wagtailcodeblock/css/prism.modified.css' %}" />
     <link rel="stylesheet" href="{% static "story/assets/css/main.css" %}"/>
-    <link href="{% static 'wagtailcodeblock/css/prism.min.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block body_class %}is-preload{% endblock %}

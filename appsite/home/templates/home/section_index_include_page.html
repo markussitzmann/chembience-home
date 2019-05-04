@@ -2,11 +2,11 @@
 
 <section class="wrapper style1 align-center">
     <div class="inner">
-        <h2>{{ section.headline }}</h2>
-        <p>{{ section.introduction }}</p>
+        <h2>{{ section_index.headline }}</h2>
+        <p>{{ section_index.introduction }}</p>
         <div class="index align-left">
-            {% for s in sections %}
-                {% include "home/section_include_page.html" with header=s.header content=s.content %}
+            {% for section in sections %}
+                {% include "home/section_include_page.html" with header=section.header content=section.content %}
             {% endfor %}
         </div>
     </div>
