@@ -2,20 +2,5 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
-    <section class="wrapper style1 align-center">
-        <div class="inner">
-            <div class="index align-left">
-                <section>
-                    <header>
-                        <h3>{{ section.header }}</h3>
-                    </header>
-                    <div class="content">
-                        {% for block in section.content %}
-                            {% include_block block %}
-                        {% endfor %}
-                    </div>
-                </section>
-            </div>
-        </div>
-    </section>
+    {% include "home/section_include_page.html" %}
 {% endblock %}
