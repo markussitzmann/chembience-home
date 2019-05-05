@@ -236,6 +236,7 @@ class SectionIndexPage(Page):
         blank=True)
 
     content_panels = Page.content_panels + [
+        FieldPanel('headline', classname="full"),
         FieldPanel('introduction', classname="full"),
     ]
 
@@ -373,7 +374,7 @@ class GalleryArticlePage(Page):
     ]
 
     subpage_types = []
-    parent_page_types = ['GalleryPage']
+    parent_page_types = ['GalleryIndexPage']
 
     def get_context(self, request):
         context = super(GalleryArticlePage, self).get_context(request)
@@ -381,7 +382,7 @@ class GalleryArticlePage(Page):
         return context
 
 
-class GalleryPage(Page):
+class GalleryIndexPage(Page):
     """"""
     headline = models.CharField(
         null=True,
@@ -418,7 +419,7 @@ class GalleryPage(Page):
         return pages
 
     def get_context(self, request):
-        context = super(GalleryPage, self).get_context(request)
+        context = super(GalleryIndexPage, self).get_context(request)
         articles = self.paginate(request, self.get_articles())
         context['articles'] = articles
         context['gallery'] = self
@@ -518,6 +519,24 @@ class HomePage(Page):
         verbose_name='Spotlights'
     )
 
+    gallery_index_page = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Gallery'
+    )
+
+    item_index_page = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Items'
+    )
+
     section_index_page = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
@@ -530,10 +549,12 @@ class HomePage(Page):
     content_panels = Page.content_panels + [
         PageChooserPanel('banner_page', 'home.BannerPage'),
         PageChooserPanel('spotlight_index_page', 'home.SpotlightIndexPage'),
+        PageChooserPanel('gallery_index_page', 'home.GalleryIndexPage'),
+        PageChooserPanel('item_index_page', 'home.ItemIndexPage'),
         PageChooserPanel('section_index_page', 'home.SectionIndexPage'),
     ]
 
-    subpage_types = ['BannerPage', 'GalleryPage', 'ItemIndexPage', 'SpotlightIndexPage', 'SectionIndexPage']
+    subpage_types = ['BannerPage', 'GalleryIndexPage', 'ItemIndexPage', 'SpotlightIndexPage', 'SectionIndexPage']
 
     def __str__(self):
         return self.banner_page

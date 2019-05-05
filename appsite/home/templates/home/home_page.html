@@ -15,12 +15,26 @@
 
         {% endif %}
 
+         {% if page.gallery_index_page %}
+
+            {% include "home/gallery_index_include_page.html" with gallery_index=page.gallery_index_page.specific articles=page.gallery_index_page.specific.children %}
+
+        {% endif %}
+
+        {% if page.item_index_page %}
+
+            {% include "home/item_index_include_page.html" with item_index=page.item_index_page.specific items=page.item_index_page.specific.children %}
+
+        {% endif %}
 
         {% if page.section_index_page %}
 
             {% include "home/section_index_include_page.html" with section_index=page.section_index_page.specific sections=page.section_index_page.specific.children %}
 
         {% endif %}
+
+
+
 
 
 
