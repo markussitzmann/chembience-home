@@ -264,6 +264,7 @@ class SectionIndexPage(Page):
         context = super(SectionIndexPage, self).get_context(request)
         sections = self.paginate(request, self.get_sections())
         context['sections'] = sections
+        context['section_index'] = self
         return context
 
 
@@ -342,6 +343,7 @@ class SpotlightIndexPage(Page):
         context = super(SpotlightIndexPage, self).get_context(request)
         spotlights = self.paginate(request, self.get_spotlights())
         context['spotlights'] = spotlights
+        context['spotlight_index'] = self
         return context
 
 
@@ -422,7 +424,7 @@ class GalleryIndexPage(Page):
         context = super(GalleryIndexPage, self).get_context(request)
         articles = self.paginate(request, self.get_articles())
         context['articles'] = articles
-        context['gallery'] = self
+        context['gallery_index'] = self
         return context
 
 
