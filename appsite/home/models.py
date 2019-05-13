@@ -3,6 +3,7 @@ from django.db import models
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, PageChooserPanel, InlinePanel
+from wagtail.core.blocks import PageChooserBlock
 from wagtail.core.fields import StreamField, RichTextField
 
 from wagtail.core.models import Page, Orderable
@@ -270,10 +271,7 @@ class SectionIndexPage(Page):
 
 class SpotlightPage(Page):
     """ """
-
-    content = StreamField(
-        BaseStreamBlock(), verbose_name="Page Content", blank=True
-    )
+    content = RichTextField(blank=True)
     image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -291,7 +289,7 @@ class SpotlightPage(Page):
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('image'),
-        StreamFieldPanel('content'),
+        FieldPanel('content'),
         FieldPanel('options'),
     ]
 
@@ -559,5 +557,19 @@ class HomePage(Page):
     subpage_types = ['BannerPage', 'GalleryIndexPage', 'ItemIndexPage', 'SpotlightIndexPage', 'SectionIndexPage']
 
     def __str__(self):
-        return self.banner_page
+        return "HOME1"
 
+
+class HomeBlockPage(Page):
+
+    content = StreamField([
+        ('banner', PageChooserBlock(target_model='home.BannerPage', null=True, blank=True)),
+        ('section_index', PageChooserBlock(target_model='home.SectionIndexPage', null=True, blank=True)),
+        ('gallery_index', PageChooserBlock(target_model='home.GalleryIndexPage',null=True, blank=True)),
+        ('item_index', PageChooserBlock(target_model='home.ItemIndexPage', null=True, blank=True)),
+        ('spotlight_index', PageChooserBlock(target_model='home.SpotlightIndexPage', null=True, blank=True)),
+    ])
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('content'),
+    ]

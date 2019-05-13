@@ -3,20 +3,7 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
-    {% with spotlight.options as options %}
-        <section
-                class="spotlight {{ options.style }} {{ options.orientation }} {{ options.content_align }} {{ options.color }} {{ options.image_position }} {{ options.onload_fade }} {{ options.onscroll_fade }}"
-                {% if first %} %}id="first"{% endif %}>
-    {% endwith %}
-<div class="content">
-    {{ spotlight.content }}
-    <ul class="actions stacked">
-        <li><a href="#" class="button">Learn More</a></li>
-    </ul>
-</div>
-<div class="image">{% image spotlight.image fill-800x400-c100 as image %}
-    <img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" alt="{{ image.alt }}"
-         class=""/>
-</div>
-</section>
+    <div id="wrapper" class="divided">
+    {% include "home/spotlight_include_page.html" with content=spotlight.content image=spotlight.image options=spotlight.options %}
+    </div>
 {% endblock %}

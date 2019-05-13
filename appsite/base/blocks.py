@@ -9,13 +9,13 @@ from wagtailcodeblock.blocks import CodeBlock
 from home.sitedefaults import headline_size_choices
 
 
-class StrucBlockWithSeparator(StructBlock):
+class StructBlockWithSeparator(StructBlock):
     """
     """
     separator = BooleanBlock(default=False, required=False)
 
 
-class ImageBlock(StrucBlockWithSeparator):
+class ImageBlock(StructBlockWithSeparator):
     """
     """
     image = ImageChooserBlock(required=True)
@@ -24,10 +24,10 @@ class ImageBlock(StrucBlockWithSeparator):
 
     class Meta:
         icon = 'image'
-        template = "blocks/image_block.html"
+        template = "home/blocks/image_block.html"
 
 
-class HeadingBlock(StrucBlockWithSeparator):
+class HeadingBlock(StructBlockWithSeparator):
     """
     """
     heading_text = CharBlock(classname="title", required=True)
@@ -35,10 +35,10 @@ class HeadingBlock(StrucBlockWithSeparator):
 
     class Meta:
         icon = "title"
-        template = "blocks/heading_block.html"
+        template = "home/blocks/heading_block.html"
 
 
-class BlockQuote(StrucBlockWithSeparator):
+class BlockQuote(StructBlockWithSeparator):
     """
     """
     text = TextBlock()
@@ -47,7 +47,7 @@ class BlockQuote(StrucBlockWithSeparator):
 
     class Meta:
         icon = "fa-quote-left"
-        template = "blocks/blockquote.html"
+        template = "home/blocks/blockquote.html"
 
 
 class BaseStreamBlock(StreamBlock):
@@ -56,14 +56,14 @@ class BaseStreamBlock(StreamBlock):
     heading_block = HeadingBlock()
     paragraph_block = RichTextBlock(
         icon="fa-paragraph",
-        template="blocks/paragraph_block.html"
+        template="home/blocks/paragraph_block.html"
     )
     image_block = ImageBlock()
     block_quote = BlockQuote()
     embed_block = EmbedBlock(
         help_text='Insert an embed URL e.g https://www.youtube.com/embed/SGJFWirQ3ks',
         icon="fa-s15",
-        template="blocks/embed_block.html")
+        template="home/blocks/embed_block.html")
     table = TableBlock(
         default_table_options={
             'minSpareRows': 0,
@@ -80,3 +80,6 @@ class BaseStreamBlock(StreamBlock):
         }
     )
     code = CodeBlock(label='Code')
+
+
+

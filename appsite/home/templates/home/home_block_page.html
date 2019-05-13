@@ -1,0 +1,44 @@
+{% extends "home/assets.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+
+    <div id="wrapper" class="divided">
+
+    {% for block in page.content %}
+
+        {% if block.block_type == 'banner' %}
+            {% with block.value.bannerpage as p %}
+            {% include "home/banner_include_page.html" with banner=p %}
+            {% endwith %}
+        {% endif %}
+
+        {% if block.block_type == 'section_index' %}
+            {% with block.value.sectionindexpage as p %}
+            {% include "home/section_index_include_page.html" with section_index=p sections=p.get_sections %}
+             {% endwith %}
+        {% endif %}
+
+        {% if block.block_type == 'gallery_index' %}
+            {% with block.value.galleryindexpage as p %}
+            {% include "home/gallery_index_include_page.html" with gallery_index=p articles=p.get_articles %}
+             {% endwith %}
+        {% endif %}
+
+        {% if block.block_type == 'item_index' %}
+            {% with block.value.itemindexpage as p %}
+            {% include "home/item_index_include_page.html" with item_index=p items=p.get_items %}
+             {% endwith %}
+        {% endif %}
+
+        {% if block.block_type == 'spotlight_index' %}
+            {% with block.value.spotlightindexpage as p %}
+            {% include "home/spotlight_index_include_page.html" with spotlight_index=p spotlights=p.get_spotlights %}
+             {% endwith %}
+        {% endif %}
+
+    {% endfor %}
+
+    </div>
+
+{% endblock content %}
