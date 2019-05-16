@@ -1,7 +1,7 @@
 django>=2.1.6
 django-extensions
 django-htmlmin
-wagtail==2.5
+wagtail>=2.5
 wagtailfontawesome
 wagtailcodeblock
 elasticsearch>=6.0.0,<6.6.1

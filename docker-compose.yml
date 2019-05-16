@@ -93,10 +93,10 @@ services:
 
 volumes:
   cmsdb_volume:
-  cmsindex1_volume:
-    driver: local
-  cmsindex2_volume:
-    driver: local
+#  cmsindex1_volume:
+#    driver: local
+#  cmsindex2_volume:
+#    driver: local
 
 networks:
   sphere:

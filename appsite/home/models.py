@@ -82,9 +82,10 @@ class ActionButtonGroupMember(Orderable, models.Model):
 
 
 @register_snippet
-class VisualStyleOptions(models.Model):
-    """"""
+class StyleOptions(models.Model):
+    """
 
+    """
     name = models.CharField(
         max_length=25,
         primary_key=True,
@@ -157,7 +158,9 @@ class VisualStyleOptions(models.Model):
 
 
 class BannerPage(Page):
-    """"""
+    """
+        Banner Page
+    """
     header = models.CharField(max_length=127)
     major = RichTextField(verbose_name="Major Text", blank=True)
     minor = RichTextField(verbose_name="Minor Text", blank=True)
@@ -169,7 +172,7 @@ class BannerPage(Page):
         related_name='+'
     )
     options = models.ForeignKey(
-        'home.VisualStyleOptions',
+        'home.StyleOptions',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -192,7 +195,6 @@ class BannerPage(Page):
         FieldPanel('button_group'),
     ]
 
-    parent_page_types = ['HomePage']
     subpage_types = []
 
     def get_context(self, request):
@@ -202,7 +204,9 @@ class BannerPage(Page):
 
 
 class SectionPage(Page):
-    """"""
+    """
+        Section Page
+    """
     header = models.CharField(max_length=255)
     content = StreamField(
         BaseStreamBlock(), verbose_name="Page Content", blank=True
@@ -226,7 +230,9 @@ class SectionPage(Page):
 
 
 class SectionIndexPage(Page):
-    """"""
+    """
+        Section Index Page
+    """
     headline = models.CharField(
         null=True,
         blank=True,
@@ -241,7 +247,6 @@ class SectionIndexPage(Page):
         FieldPanel('introduction', classname="full"),
     ]
 
-    parent_page_types = ['HomePage']
     subpage_types = ['SectionPage']
 
     def get_sections(self):
@@ -270,7 +275,9 @@ class SectionIndexPage(Page):
 
 
 class SpotlightPage(Page):
-    """ """
+    """
+        Spotlight Page
+    """
     content = RichTextField(blank=True)
     image = models.ForeignKey(
         'wagtailimages.Image',
@@ -280,7 +287,7 @@ class SpotlightPage(Page):
         related_name='+'
     )
     options = models.ForeignKey(
-        'home.VisualStyleOptions',
+        'home.StyleOptions',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -297,8 +304,8 @@ class SpotlightPage(Page):
         index.SearchField('content'),
     ]
 
-    subpage_types = []
     parent_page_types = ['SpotlightIndexPage']
+    subpage_types = []
 
     def get_context(self, request):
         context = super(SpotlightPage, self).get_context(request)
@@ -307,8 +314,9 @@ class SpotlightPage(Page):
 
 
 class SpotlightIndexPage(Page):
-    """ """
-
+    """
+        SPotlight Index Page
+    """
     introduction = models.TextField(
         help_text='Text to describe the page',
         blank=True)
@@ -317,7 +325,6 @@ class SpotlightIndexPage(Page):
         FieldPanel('introduction', classname="full"),
     ]
 
-    parent_page_types = ['HomePage']
     subpage_types = ['SpotlightPage']
 
     def get_spotlights(self):
@@ -346,7 +353,9 @@ class SpotlightIndexPage(Page):
 
 
 class GalleryArticlePage(Page):
-    """"""
+    """
+        Gallery Article Page
+    """
     headline = models.CharField(
         null=True,
         blank=True,
@@ -373,8 +382,8 @@ class GalleryArticlePage(Page):
         index.SearchField('text'),
     ]
 
-    subpage_types = []
     parent_page_types = ['GalleryIndexPage']
+    subpage_types = []
 
     def get_context(self, request):
         context = super(GalleryArticlePage, self).get_context(request)
@@ -383,7 +392,9 @@ class GalleryArticlePage(Page):
 
 
 class GalleryIndexPage(Page):
-    """"""
+    """
+        Gallery Index Page
+    """
     headline = models.CharField(
         null=True,
         blank=True,
@@ -398,7 +409,6 @@ class GalleryIndexPage(Page):
         FieldPanel('introduction', classname="full"),
     ]
 
-    parent_page_types = ['HomePage']
     subpage_types = ['GalleryArticlePage']
 
     def get_articles(self):
@@ -427,7 +437,9 @@ class GalleryIndexPage(Page):
 
 
 class ItemPage(Page):
-    """"""
+    """
+        Item Page
+    """
     headline = models.CharField(
         null=True,
         blank=True,
@@ -446,8 +458,8 @@ class ItemPage(Page):
         index.SearchField('text'),
     ]
 
-    subpage_types = []
     parent_page_types = ['ItemIndexPage']
+    subpage_types = []
 
     def get_context(self, request):
         context = super(ItemPage, self).get_context(request)
@@ -456,7 +468,9 @@ class ItemPage(Page):
 
 
 class ItemIndexPage(Page):
-    """"""
+    """
+        Item Index Page
+    """
     headline = models.CharField(
         null=True,
         blank=True,
@@ -499,69 +513,10 @@ class ItemIndexPage(Page):
         return context
 
 
-class HomePage(Page):
-    """ """
-    banner_page = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name='Banner'
-    )
-
-    spotlight_index_page = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name='Spotlights'
-    )
-
-    gallery_index_page = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name='Gallery'
-    )
-
-    item_index_page = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name='Items'
-    )
-
-    section_index_page = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name='Sections'
-    )
-
-    content_panels = Page.content_panels + [
-        PageChooserPanel('banner_page', 'home.BannerPage'),
-        PageChooserPanel('spotlight_index_page', 'home.SpotlightIndexPage'),
-        PageChooserPanel('gallery_index_page', 'home.GalleryIndexPage'),
-        PageChooserPanel('item_index_page', 'home.ItemIndexPage'),
-        PageChooserPanel('section_index_page', 'home.SectionIndexPage'),
-    ]
-
-    subpage_types = ['BannerPage', 'GalleryIndexPage', 'ItemIndexPage', 'SpotlightIndexPage', 'SectionIndexPage']
-
-    def __str__(self):
-        return "HOME1"
-
-
-class HomeBlockPage(Page):
-
+class HomeStreamPage(Page):
+    """
+        Home Stream Page
+    """
     content = StreamField([
         ('banner', PageChooserBlock(target_model='home.BannerPage', null=True, blank=True)),
         ('section_index', PageChooserBlock(target_model='home.SectionIndexPage', null=True, blank=True)),
