@@ -1,16 +1,6 @@
 
 features = ['bold', 'italic', 'link', 'code']
 
-headline_size_choices = (
-    ('h1', 'H1'),
-    ('h2', 'H2'),
-    ('h3', 'H3'),
-    ('h4', 'H4'),
-    ('h5', 'H5'),
-    ('h6', 'H6'),
-)
-
-
 style_choices = (
     ('style1', 'No. 1'),
     ('style2', 'No. 2'),
@@ -57,15 +47,14 @@ onscroll_fade_choices = (
 )
 
 color_choices = (
-    ('invert', 'invert'),
-    ('color0', 'color0'),
-    ('color1', 'color1'),
-    ('color2', 'color2'),
-    ('color3', 'color3'),
-    ('color4', 'color4'),
-    ('color5', 'color5'),
-    ('color6', 'color6'),
-    ('color7', 'color7'),
+    ('color0', 'Color 0'),
+    ('color1', 'Color 1'),
+    ('color2', 'Color 2'),
+    ('color3', 'Color 3'),
+    ('color4', 'Color 4'),
+    ('color5', 'Color 5'),
+    ('color6', 'Color 6'),
+    ('color7', 'Color 7'),
 )
 
 heading_levels = [

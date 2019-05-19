@@ -6,7 +6,7 @@ from wagtail.core.blocks import (
     BooleanBlock)
 from wagtailcodeblock.blocks import CodeBlock
 
-from home.sitedefaults import headline_size_choices
+from home.sitedefaults import heading_levels
 
 
 class StructBlockWithSeparator(StructBlock):
@@ -31,7 +31,7 @@ class HeadingBlock(StructBlockWithSeparator):
     """
     """
     heading_text = CharBlock(classname="title", required=True)
-    size = ChoiceBlock(choices=headline_size_choices, blank=True, required=False)
+    size = ChoiceBlock(choices=heading_levels, blank=True, required=False)
 
     class Meta:
         icon = "title"

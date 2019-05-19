@@ -2,7 +2,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import models
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, PageChooserPanel, InlinePanel
+from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.core.blocks import PageChooserBlock
 from wagtail.core.fields import StreamField, RichTextField
 
@@ -14,13 +14,14 @@ from wagtail.snippets.models import register_snippet
 
 from base.blocks import BaseStreamBlock
 
-from home.sitedefaults import style_choices, orientation_choices, content_align_choices, image_position_choices, \
-    onload_fade_choices, onscroll_fade_choices, color_choices
+from home.sitedefaults import *
 
 
 @register_snippet
 class ActionButton(models.Model):
-
+    """
+        Action Button
+    """
     SIZE_CHOICES = (
         ('', 'Default'),
         ('small', 'Small'),
@@ -39,6 +40,9 @@ class ActionButton(models.Model):
         FieldPanel('icon'),
     ]
 
+    class Meta:
+        verbose_name = "Action Button"
+
     def __str__(self):
         button_string = self.name + " (" + self.url + ")"
         if self.size:
@@ -48,7 +52,9 @@ class ActionButton(models.Model):
 
 @register_snippet
 class ActionButtonGroup(ClusterableModel, models.Model):
-
+    """
+        Action Button Group
+    """
     name = models.CharField(max_length=255)
     small = models.BooleanField(verbose_name="Small Buttons", default=False)
     stacked = models.BooleanField(verbose_name="Stacked Buttons", default=False)
@@ -65,12 +71,14 @@ class ActionButtonGroup(ClusterableModel, models.Model):
 
 
 class ActionButtonGroupMember(Orderable, models.Model):
-
+    """
+        Action Button Group Member
+    """
     group = ParentalKey('home.ActionButtonGroup', on_delete=models.CASCADE, related_name='actions')
     button = models.ForeignKey('home.ActionButton', on_delete=models.CASCADE, related_name='+')
 
     class Meta:
-        verbose_name = "action button group"
+        verbose_name = "Action Button Group"
 
     panels = [
         SnippetChooserPanel('button'),
@@ -87,53 +95,55 @@ class StyleOptions(models.Model):
 
     """
     name = models.CharField(
-        max_length=25,
+        max_length=30,
         primary_key=True,
-        default="Spotlight1"
     )
     style = models.CharField(
-        max_length=25,
+        max_length=30,
         choices=style_choices,
-        default="No. 1"
+        default="style1"
     )
     orientation = models.CharField(
-        max_length=25,
+        max_length=30,
         choices=orientation_choices,
         default="orient-right"
     )
     content_align = models.CharField(
-        max_length=25,
+        max_length=30,
         choices=content_align_choices,
         default="content-align-left",
         null=True,
         blank=True
     )
     color = models.CharField(
-        max_length=25,
+        max_length=30,
         choices=color_choices,
         default="color0",
         null=True, blank=True
     )
+    invert = models.BooleanField(
+        default=False
+    )
     image_position = models.CharField(
-        max_length=25,
+        max_length=30,
         choices=image_position_choices,
         null=True,
         blank=True
     )
     onload_fade = models.CharField(
-        max_length=25,
+        max_length=30,
         choices=onload_fade_choices,
         null=True,
         blank=True
     )
     onscroll_fade = models.CharField(
-        max_length=25,
+        max_length=30,
         choices=onscroll_fade_choices,
         null=True,
         blank=True
     )
     color_choices = models.CharField(
-        max_length=25,
+        max_length=30,
         choices=color_choices,
         null=True,
         blank=True
@@ -141,9 +151,12 @@ class StyleOptions(models.Model):
 
     panels = [
         FieldPanel('name'),
-        FieldPanel('style'),
+        MultiFieldPanel([
+            FieldPanel('style'),
+            FieldPanel('color'),
+            FieldPanel('invert'),
+        ], heading = "Basic Styling"),
         FieldPanel('orientation'),
-        FieldPanel('color'),
         FieldPanel('content_align'),
         FieldPanel('image_position'),
         FieldPanel('onload_fade'),
@@ -154,7 +167,7 @@ class StyleOptions(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = "Spotlight options"
+        verbose_name_plural = "Styling Options"
 
 
 class BannerPage(Page):
@@ -485,7 +498,6 @@ class ItemIndexPage(Page):
         FieldPanel('introduction', classname="full"),
     ]
 
-    parent_page_types = []
     subpage_types = ['ItemPage']
 
     def get_items(self):
