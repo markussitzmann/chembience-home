@@ -8,7 +8,7 @@
                 <h1>{{ banner.header }}</h1>
                 {{ banner.major|richtext }}
                 {{ banner.minor|richtext }}
-                <ul class="actions">
+                <ul class="actions stacked">
                     {% for action in banner.button_group.actions.all %}
                         <li><a href="{{ action.button.url }}"
                                class="button {{ action.button.size }} wide smooth-scroll-middle">{{ action.button.name }}</a>
