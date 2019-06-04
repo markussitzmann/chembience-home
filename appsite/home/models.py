@@ -525,7 +525,7 @@ class ItemIndexPage(Page):
         return context
 
 
-class HomeStreamPage(Page):
+class StreamPage(Page):
     """
         Home Stream Page
     """
