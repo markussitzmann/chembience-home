@@ -2,5 +2,13 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
-    {% include "home/section_include_page.html" %}
+    <div id="wrapper" class="divided">
+        <div class="inner">
+            <div class="index align-left">
+            {% include "home/section_include_page.html" with header=section.header separator=section.separator content=section.content %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
+
+
