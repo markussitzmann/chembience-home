@@ -18,9 +18,9 @@ from home.sitedefaults import *
 
 
 @register_snippet
-class ActionButton(models.Model):
+class Button(models.Model):
     """
-        Action Button
+        Button
     """
     SIZE_CHOICES = (
         ('', 'Default'),
@@ -41,7 +41,7 @@ class ActionButton(models.Model):
     ]
 
     class Meta:
-        verbose_name = "Action Button"
+        verbose_name = "Button"
 
     def __str__(self):
         button_string = self.name + " (" + self.url + ")"
@@ -51,9 +51,9 @@ class ActionButton(models.Model):
 
 
 @register_snippet
-class ActionButtonGroup(ClusterableModel, models.Model):
+class ActionButtons(ClusterableModel, models.Model):
     """
-        Action Button Group
+        Action Buttons
     """
     name = models.CharField(max_length=255)
     small = models.BooleanField(verbose_name="Small Buttons", default=False)
@@ -63,36 +63,39 @@ class ActionButtonGroup(ClusterableModel, models.Model):
         FieldPanel('name'),
         FieldPanel('small'),
         FieldPanel('stacked'),
-        InlinePanel('actions', label="Actions"),
+        InlinePanel('buttons', label="Action Buttons"),
     ]
+
+    class Meta:
+        verbose_name = "Action Button"
+        verbose_name_plural = "Action Buttons"
 
     def __str__(self):
         return self.name
 
 
-class ActionButtonGroupMember(Orderable, models.Model):
+class ActionButton(Orderable, models.Model):
     """
-        Action Button Group Member
+        ActionButtons
     """
-    group = ParentalKey('home.ActionButtonGroup', on_delete=models.CASCADE, related_name='actions')
-    button = models.ForeignKey('home.ActionButton', on_delete=models.CASCADE, related_name='+')
+    action = ParentalKey('home.ActionButtons', on_delete=models.CASCADE, related_name='buttons')
+    button = models.ForeignKey('home.Button', on_delete=models.CASCADE, related_name='+')
 
     class Meta:
-        verbose_name = "Action Button Group"
+        verbose_name = "Action Item"
 
     panels = [
         SnippetChooserPanel('button'),
     ]
 
     def __str__(self):
-        return self.group.name + " -> " + self.button.name
-
+        return self.action.name + "->" + self.button.name
 
 
 @register_snippet
-class StyleOptions(models.Model):
+class StylingOptions(models.Model):
     """
-
+        Style Options
     """
     name = models.CharField(
         max_length=30,
@@ -155,7 +158,7 @@ class StyleOptions(models.Model):
             FieldPanel('style'),
             FieldPanel('color'),
             FieldPanel('invert'),
-        ], heading = "Basic Styling"),
+        ], heading='Basic Styling'),
         FieldPanel('orientation'),
         FieldPanel('content_align'),
         FieldPanel('image_position'),
@@ -184,15 +187,15 @@ class BannerPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    options = models.ForeignKey(
-        'home.StyleOptions',
+    styling_options = models.ForeignKey(
+        'home.StylingOptions',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    button_group = models.ForeignKey(
-        'home.ActionButtonGroup',
+    action_buttons = models.ForeignKey(
+        'home.ActionButtons',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -204,8 +207,8 @@ class BannerPage(Page):
         FieldPanel('major'),
         FieldPanel('minor'),
         ImageChooserPanel('image'),
-        FieldPanel('options'),
-        FieldPanel('button_group'),
+        FieldPanel('styling_options'),
+        FieldPanel('action_buttons'),
     ]
 
     subpage_types = []
@@ -300,7 +303,7 @@ class SpotlightPage(Page):
         related_name='+'
     )
     options = models.ForeignKey(
-        'home.StyleOptions',
+        'home.StylingOptions',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -328,7 +331,7 @@ class SpotlightPage(Page):
 
 class SpotlightIndexPage(Page):
     """
-        SPotlight Index Page
+        Spotlight Index Page
     """
     introduction = models.TextField(
         help_text='Text to describe the page',
@@ -532,7 +535,7 @@ class StreamPage(Page):
     content = StreamField([
         ('banner', PageChooserBlock(target_model='home.BannerPage', null=True, blank=True)),
         ('section_index', PageChooserBlock(target_model='home.SectionIndexPage', null=True, blank=True)),
-        ('gallery_index', PageChooserBlock(target_model='home.GalleryIndexPage',null=True, blank=True)),
+        ('gallery_index', PageChooserBlock(target_model='home.GalleryIndexPage', null=True, blank=True)),
         ('item_index', PageChooserBlock(target_model='home.ItemIndexPage', null=True, blank=True)),
         ('spotlight_index', PageChooserBlock(target_model='home.SpotlightIndexPage', null=True, blank=True)),
     ])
