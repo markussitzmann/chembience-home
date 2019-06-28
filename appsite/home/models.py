@@ -32,12 +32,15 @@ class Button(models.Model):
     url = models.URLField(max_length=255, blank=True, default='')
     size = models.CharField(max_length=25, choices=SIZE_CHOICES, blank=True, default='')
     icon = models.CharField(max_length=25, blank=True, default='')
+    primary = models.BooleanField(default=False)
+
 
     panels = [
         FieldPanel('name'),
         FieldPanel('size'),
         FieldPanel('url'),
         FieldPanel('icon'),
+        FieldPanel('primary'),
     ]
 
     class Meta:
@@ -57,11 +60,13 @@ class ActionButtons(ClusterableModel, models.Model):
     """
     name = models.CharField(max_length=255)
     small = models.BooleanField(verbose_name="Small Buttons", default=False)
+    fit = models.BooleanField(verbose_name="Fit Buttons", default=False)
     stacked = models.BooleanField(verbose_name="Stacked Buttons", default=False)
 
     panels = [
         FieldPanel('name'),
         FieldPanel('small'),
+        FieldPanel('fit'),
         FieldPanel('stacked'),
         InlinePanel('buttons', label="Action Buttons"),
     ]
@@ -194,7 +199,7 @@ class BannerPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    action_buttons = models.ForeignKey(
+    actions = models.ForeignKey(
         'home.ActionButtons',
         null=True,
         blank=True,
@@ -208,7 +213,7 @@ class BannerPage(Page):
         FieldPanel('minor'),
         ImageChooserPanel('image'),
         FieldPanel('styling_options'),
-        FieldPanel('action_buttons'),
+        FieldPanel('actions'),
     ]
 
     subpage_types = []
