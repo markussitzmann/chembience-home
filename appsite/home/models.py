@@ -206,6 +206,8 @@ class BannerPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    fullscreen = models.BooleanField(verbose_name="Full Screen", default=True)
+
 
     content_panels = Page.content_panels + [
         FieldPanel('header'),
@@ -214,6 +216,8 @@ class BannerPage(Page):
         ImageChooserPanel('image'),
         FieldPanel('styling_options'),
         FieldPanel('actions'),
+        FieldPanel('fullscreen'),
+
     ]
 
     subpage_types = []
