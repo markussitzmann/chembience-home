@@ -34,7 +34,6 @@ class Button(models.Model):
     icon = models.CharField(max_length=25, blank=True, default='')
     primary = models.BooleanField(default=False)
 
-
     panels = [
         FieldPanel('name'),
         FieldPanel('size'),
@@ -87,7 +86,7 @@ class ActionButton(Orderable, models.Model):
     button = models.ForeignKey('home.Button', on_delete=models.CASCADE, related_name='+')
 
     class Meta:
-        verbose_name = "Action Item"
+        verbose_name = "Action Button"
 
     panels = [
         SnippetChooserPanel('button'),
@@ -208,7 +207,6 @@ class BannerPage(Page):
     )
     fullscreen = models.BooleanField(verbose_name="Full Screen", default=True)
 
-
     content_panels = Page.content_panels + [
         FieldPanel('header'),
         FieldPanel('major'),
@@ -217,7 +215,6 @@ class BannerPage(Page):
         FieldPanel('styling_options'),
         FieldPanel('actions'),
         FieldPanel('fullscreen'),
-
     ]
 
     subpage_types = []
@@ -311,8 +308,15 @@ class SpotlightPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    options = models.ForeignKey(
+    styling_options = models.ForeignKey(
         'home.StylingOptions',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    actions = models.ForeignKey(
+        'home.ActionButtons',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -322,7 +326,8 @@ class SpotlightPage(Page):
     content_panels = Page.content_panels + [
         ImageChooserPanel('image'),
         FieldPanel('content'),
-        FieldPanel('options'),
+        FieldPanel('styling_options'),
+        FieldPanel('actions'),
     ]
 
     search_fields = Page.search_fields + [

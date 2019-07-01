@@ -1,35 +1,26 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 {% spaceless %}
-<div id="wrapper" class="divided">
-    {% with banner.styling_options as options %}
-    {% with banner.actions.buttons.all as action_buttons %}
+    <div id="wrapper" class="divided">
+        {% with banner.styling_options as options %}
 
-        <section class="banner {{ options.style }} {{ options.color|default:" " }} {% if options.invert %} invert{% endif %} {{ options.orientation|default:"" }} {{ options.content_align|default:"" }} {{ options.image_position|default:"" }} {{ options.onload_fade|default:"" }} {{ options.onscroll_fade|default:"" }} {% if banner.fullscreen %}fullscreen{% endif %}">
+            <section
+                    class="banner {{ options.style }} {{ options.color|default:"" }} {% if options.invert %} invert{% endif %} {{ options.orientation|default:"" }} {{ options.content_align|default:"" }} {{ options.image_position|default:"" }} {{ options.onload_fade|default:"" }} {{ options.onscroll_fade|default:"" }} {% if banner.fullscreen %}fullscreen{% endif %}">
 
-            <div class="content">
-                <h1>{{ banner.header }}</h1>
-                {{ banner.major|richtext }}
-                {{ banner.minor|richtext }}
-                {% if banner.actions %}
-                <ul class="actions{% if actions.stacked %} stacked{% endif %}{% if actions.fit %} fit{% endif %}">
-                    {% for action in action_buttons %}
-                        {% with action.button as button %}
-                        <li><a href="{{ button.url }}"
-                               class="button{% if button.primary %} primary{% endif %} {{ button.size|default:"" }}{% if actions.fit %} fit{% endif %} wide smooth-scroll-middle{% if button.icon %} icon {{ button.icon }}{% endif %} %}">{{ button.name }}</a>
-                        </li>
-                        {% endwith %}
-                    {% endfor %}
-                </ul>
-                {% endif %}
-            </div>
+                <div class="content">
+                    <h1>{{ banner.header }}</h1>
+                    {{ banner.major|richtext }}
+                    {{ banner.minor|richtext }}
+                    {% if banner.actions %}
+                        {% include "home/actions.html" with stacked=banner.actions.stacked fit=banner.actions.fit action_buttons=banner.actions.buttons.all add_attributes="wide smooth-scroll-middle" %}
+                    {% endif %}
+                </div>
 
-            <div class="image">{% image banner.image fill-1920x1080-c100 as image %}
-                <img src="{{ image.url }}" alt="{{ image.alt }}" class=""/>
-            </div>
+                <div class="image">{% image banner.image fill-1920x1080-c100 as image %}
+                    <img src="{{ image.url }}" alt="{{ image.alt }}" class=""/>
+                </div>
 
-        </section>
+            </section>
 
-    {% endwith %}
-    {% endwith %}
-</div>
+        {% endwith %}
+    </div>
 {% endspaceless %}
