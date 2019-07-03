@@ -16,9 +16,13 @@
                 <div class="caption">
                     <h3>{{ article.headline }}</h3>
                     {{ article.text|richtext }}
+                    {% if article.actions %}
+                        {% include "home/actions.html" with stacked=article.actions.stacked fit=article.actions.fit action_buttons=article.actions.buttons.all add_attributes="fixed small" %}
+                    {% else %}
                     <ul class="actions fixed">
                         <li><span class="button small">Details</span></li>
                     </ul>
+                    {% endif %}
                 </div>
             </article>
         {% endfor %}

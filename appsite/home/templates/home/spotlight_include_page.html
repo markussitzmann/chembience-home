@@ -2,9 +2,7 @@
 
 {% with spotlight.styling_options as options %}
 
-<section
-        class="spotlight {{ options.style }} {{ options.color|default:"" }} {% if options.invert %} invert{% endif %} {{ options.orientation|default:"" }} {{ options.content_align|default:"" }} {{ options.image_position|default:"" }} {{ options.onload_fade|default:"" }} {{ options.onscroll_fade|default:"" }} {% if banner.fullscreen %}fullscreen{% endif %}"
-        {% if first %}id="first"{% endif %}>
+<section class="spotlight {{ options.style }} {{ options.color|default:"" }} {% if options.invert %} invert{% endif %} {{ options.orientation|default:"" }} {{ options.content_align|default:"" }} {{ options.image_position|default:"" }} {{ options.onload_fade|default:"" }} {{ options.onscroll_fade|default:"" }} {% if banner.fullscreen %}fullscreen{% endif %}" {% if first %} id="first"{% endif %}>
     <div class="content">
         {{ content|safe }}
         {% if spotlight.actions %}

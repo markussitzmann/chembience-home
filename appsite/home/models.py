@@ -401,11 +401,19 @@ class GalleryArticlePage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    actions = models.ForeignKey(
+        'home.ActionButtons',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel('headline'),
         FieldPanel('text'),
-        ImageChooserPanel('image')
+        ImageChooserPanel('image'),
+        FieldPanel('actions')
     ]
 
     search_fields = Page.search_fields + [
