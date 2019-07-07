@@ -11,7 +11,7 @@
                     {{ banner.major|richtext }}
                     {{ banner.minor|richtext }}
                     {% if banner.actions %}
-                        {% include "home/actions.html" with stacked=banner.actions.stacked fit=banner.actions.fit action_buttons=banner.actions.buttons.all add_attributes="wide smooth-scroll-middle" %}
+                        {% include "home/actions.html" with stacked=banner.actions.stacked fit=banner.actions.fit action_buttons=banner.actions.buttons.all add_button_attributes="wide smooth-scroll-middle" %}
                     {% endif %}
                 </div>
 

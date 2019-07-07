@@ -181,7 +181,7 @@ class BannerPage(Page):
     """
         Banner Page
     """
-    header = models.CharField(max_length=127)
+    headline = models.CharField(max_length=127)
     major = RichTextField(verbose_name="Major Text", blank=True)
     minor = RichTextField(verbose_name="Minor Text", blank=True)
     image = models.ForeignKey(
@@ -208,7 +208,7 @@ class BannerPage(Page):
     fullscreen = models.BooleanField(verbose_name="Full Screen", default=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel('header'),
+        FieldPanel('headline'),
         FieldPanel('major'),
         FieldPanel('minor'),
         ImageChooserPanel('image'),
@@ -347,14 +347,6 @@ class SpotlightIndexPage(Page):
     """
         Spotlight Index Page
     """
-    introduction = models.TextField(
-        help_text='Text to describe the page',
-        blank=True)
-
-    content_panels = Page.content_panels + [
-        FieldPanel('introduction', classname="full"),
-    ]
-
     subpage_types = ['SpotlightPage']
 
     def get_spotlights(self):
@@ -408,12 +400,21 @@ class GalleryArticlePage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    lightbox_button = models.BooleanField(verbose_name="Lightbox Button", default=True)
+    lightbox_button_text = models.CharField(
+        null=True,
+        blank=True,
+        max_length=32,
+    )
+
 
     content_panels = Page.content_panels + [
         FieldPanel('headline'),
         FieldPanel('text'),
         ImageChooserPanel('image'),
-        FieldPanel('actions')
+        FieldPanel('actions'),
+        FieldPanel('lightbox_button'),
+        FieldPanel('lightbox_button_text')
     ]
 
     search_fields = Page.search_fields + [
@@ -478,6 +479,7 @@ class ItemPage(Page):
     """
         Item Page
     """
+    icon = models.CharField(max_length=25, blank=True, default='')
     headline = models.CharField(
         null=True,
         blank=True,
@@ -486,10 +488,20 @@ class ItemPage(Page):
     text = models.TextField(
         help_text='Text to describe the page',
         blank=True)
+    actions = models.ForeignKey(
+        'home.ActionButtons',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     content_panels = Page.content_panels + [
+        FieldPanel('icon'),
         FieldPanel('headline'),
         FieldPanel('text'),
+        FieldPanel('actions'),
+
     ]
 
     search_fields = Page.search_fields + [
@@ -521,6 +533,7 @@ class ItemIndexPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel('headline', classname="full"),
         FieldPanel('introduction', classname="full"),
+
     ]
 
     subpage_types = ['ItemPage']

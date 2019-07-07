@@ -6,7 +6,7 @@
     <div class="content">
         {{ content|safe }}
         {% if spotlight.actions %}
-            {% include "home/actions.html" with stacked=spotlight.actions.stacked fit=spotlight.actions.fit action_buttons=spotlight.actions.buttons.all add_attributes="" %}
+            {% include "home/actions.html" with stacked=spotlight.actions.stacked fit=spotlight.actions.fit action_buttons=spotlight.actions.buttons.all add_button_attributes="" %}
         {% endif %}
     </div>
     <div class="image">{% image image fill-800x800-c100 as image %}

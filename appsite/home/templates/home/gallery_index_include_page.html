@@ -7,24 +7,7 @@
     </div>
     <div class="gallery style2 medium lightbox onscroll-fade-in">
         {% for article in articles %}
-            <article>
-                {% image article.image fill-1000x600-c100 as image1 %}
-                {% image article.image fill-1280x768-c100 as image2 %}
-                <a href="{{ image2.url }}" class="image">
-                    <img src="{{ image1.url }}" alt="{{ image1.alt }}"/>
-                </a>
-                <div class="caption">
-                    <h3>{{ article.headline }}</h3>
-                    {{ article.text|richtext }}
-                    {% if article.actions %}
-                        {% include "home/actions.html" with stacked=article.actions.stacked fit=article.actions.fit action_buttons=article.actions.buttons.all add_attributes="fixed small" %}
-                    {% else %}
-                    <ul class="actions fixed">
-                        <li><span class="button small">Details</span></li>
-                    </ul>
-                    {% endif %}
-                </div>
-            </article>
+        {% include "home/gallery_article_include_page.html" %}
         {% endfor %}
     </div>
 </section>

@@ -3,14 +3,10 @@
 <section class="wrapper style1 align-center">
     <div class="inner">
         <h2>{{ item_index.headline }}</h2>
-        {{ item_index.introduction }}
+        <p>{{ item_index.introduction }}</p>
         <div class="items style1 medium onscroll-fade-in">
             {% for item in items %}
-                <section>
-                    <span class="icon style2 major fa-diamond"></span>
-                    <h3>{{ item.headline }}</h3>
-                    {{ item.text }}
-                </section>
+                {% include "home/item_include_page.html" %}
             {% endfor %}
         </div>
     </div>

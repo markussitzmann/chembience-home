@@ -1,0 +1,27 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+
+<article>
+    {% image article.image fill-1000x600-c100 as image1 %}
+    {% image article.image fill-1280x768-c100 as image2 %}
+    <a href="{{ image2.url }}" class="image">
+        <img src="{{ image1.url }}" alt="{{ image1.alt }}"/>
+    </a>
+    <div class="caption">
+        <h3>{{ article.headline }}</h3>
+        {{ article.text|richtext }}
+        {% if article.actions %}
+            {% include "home/actions.html" with stacked=False fit=article.actions.fit action_buttons=article.actions.buttons.all add_attributes="fixed small" %}
+        {% elif article.lightbox_button %}
+            <ul class="actions fixed">
+                <li><span class="button small">{{ article.lightbox_button_text|default:"Show" }}</span></li>
+            </ul>
+        {% else %}
+            <ul class="actions fixed">
+                <li><span class="button small">Show</span></li>
+            </ul>
+        {% endif %}
+    </div>
+</article>
+
+
