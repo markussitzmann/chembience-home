@@ -12,13 +12,9 @@
         {{ article.text|richtext }}
         {% if article.actions %}
             {% include "home/actions.html" with stacked=False fit=article.actions.fit action_buttons=article.actions.buttons.all add_attributes="fixed small" %}
-        {% elif article.lightbox_button %}
-            <ul class="actions fixed">
-                <li><span class="button small">{{ article.lightbox_button_text|default:"Show" }}</span></li>
-            </ul>
         {% else %}
             <ul class="actions fixed">
-                <li><span class="button small">Show</span></li>
+                <li><span class="button small">{{ options.lightbox_button_text|default:"Show" }}</span></li>
             </ul>
         {% endif %}
     </div>

@@ -96,18 +96,71 @@ class ActionButton(Orderable, models.Model):
         return self.action.name + "->" + self.button.name
 
 
-@register_snippet
-class StylingOptions(models.Model):
+class StylingBase(models.Model):
     """
-        Style Options
+
     """
     name = models.CharField(
         max_length=30,
         primary_key=True,
     )
+    panels = [
+        FieldPanel('name'),
+    ]
+
+    def __str__(self):
+        return self.name
+
+
+class StylingColorOptions(models.Model):
+    """
+
+    """
+    color = models.CharField(
+        max_length=30,
+        choices=color_choices,
+        default="color0",
+        null=True, blank=True
+    )
+    invert = models.BooleanField(
+        default=False
+    )
+
+    panels = [
+        MultiFieldPanel([
+            FieldPanel('color'),
+            FieldPanel('invert'),
+        ], heading='Basic Styling'),
+    ]
+
+
+class StylingSizeOptions(models.Model):
+    """
+        Size Style Options
+    """
+    size = models.CharField(
+        max_length=10,
+        choices=(
+            ('small', 'Small'),
+            ('medium', 'Medium'),
+            ('big', 'Big'),
+        ),
+        default="medium"
+    )
+
+    panels = [
+        FieldPanel('size'),
+    ]
+
+
+@register_snippet
+class BannerStyling(StylingBase, StylingColorOptions):
+    """
+        Banner Style Options
+    """
     style = models.CharField(
         max_length=30,
-        choices=style_choices,
+        choices=style_choices[0:5],
         default="style1"
     )
     orientation = models.CharField(
@@ -122,14 +175,85 @@ class StylingOptions(models.Model):
         null=True,
         blank=True
     )
-    color = models.CharField(
+    image_position = models.CharField(
         max_length=30,
-        choices=color_choices,
-        default="color0",
-        null=True, blank=True
+        choices=image_position_choices,
+        null=True,
+        blank=True
     )
-    invert = models.BooleanField(
-        default=False
+    onload_fade = models.CharField(
+        max_length=30,
+        choices=onload_fade_choices,
+        null=True,
+        blank=True
+    )
+    onscroll_fade = models.CharField(
+        max_length=30,
+        choices=onscroll_fade_choices,
+        null=True,
+        blank=True
+    )
+
+    panels = StylingBase.panels + StylingColorOptions.panels + [
+        FieldPanel('style'),
+        FieldPanel('orientation'),
+        FieldPanel('content_align'),
+        FieldPanel('image_position'),
+        FieldPanel('onload_fade'),
+        FieldPanel('onscroll_fade'),
+    ]
+
+
+@register_snippet
+class GalleryIndexStyling(StylingBase, StylingSizeOptions):
+    """
+        Gallery Style Options
+    """
+    style = models.CharField(
+        max_length=30,
+        choices=style_choices[0:2],
+        default="style1"
+    )
+    lightbox_button_text = models.CharField(
+        null=True,
+        blank=True,
+        max_length=32,
+    )
+    onload_fade_in = models.BooleanField(verbose_name="Fade in on load", default=False)
+    onscroll_fade_in = models.BooleanField(verbose_name="Fade in on load", default=False)
+
+    panels = StylingBase.panels + StylingSizeOptions.panels + [
+        FieldPanel('style'),
+        FieldPanel('lightbox_button_text'),
+        FieldPanel('onload_fade_in'),
+        FieldPanel('onscroll_fade_in')
+    ]
+
+    class Meta:
+        verbose_name = "Gallery Styling"
+
+
+@register_snippet
+class StylingOptions(StylingBase):
+    """
+        Style Options
+    """
+    # style = models.CharField(
+    #     max_length=30,
+    #     choices=style_choices,
+    #     default="style1"
+    # )
+    orientation = models.CharField(
+        max_length=30,
+        choices=orientation_choices,
+        default="orient-right"
+    )
+    content_align = models.CharField(
+        max_length=30,
+        choices=content_align_choices,
+        default="content-align-left",
+        null=True,
+        blank=True
     )
     image_position = models.CharField(
         max_length=30,
@@ -156,13 +280,7 @@ class StylingOptions(models.Model):
         blank=True
     )
 
-    panels = [
-        FieldPanel('name'),
-        MultiFieldPanel([
-            FieldPanel('style'),
-            FieldPanel('color'),
-            FieldPanel('invert'),
-        ], heading='Basic Styling'),
+    panels = StylingBase.panels + [
         FieldPanel('orientation'),
         FieldPanel('content_align'),
         FieldPanel('image_position'),
@@ -170,8 +288,8 @@ class StylingOptions(models.Model):
         FieldPanel('onscroll_fade'),
     ]
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name
 
     class Meta:
         verbose_name_plural = "Styling Options"
@@ -192,7 +310,7 @@ class BannerPage(Page):
         related_name='+'
     )
     styling_options = models.ForeignKey(
-        'home.StylingOptions',
+        'home.BannerStyling',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -400,12 +518,6 @@ class GalleryArticlePage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    lightbox_button = models.BooleanField(verbose_name="Lightbox Button", default=True)
-    lightbox_button_text = models.CharField(
-        null=True,
-        blank=True,
-        max_length=32,
-    )
 
 
     content_panels = Page.content_panels + [
@@ -413,8 +525,6 @@ class GalleryArticlePage(Page):
         FieldPanel('text'),
         ImageChooserPanel('image'),
         FieldPanel('actions'),
-        FieldPanel('lightbox_button'),
-        FieldPanel('lightbox_button_text')
     ]
 
     search_fields = Page.search_fields + [
@@ -442,10 +552,18 @@ class GalleryIndexPage(Page):
     introduction = models.TextField(
         help_text='Text to describe the page',
         blank=True)
+    styling_options = models.ForeignKey(
+        'home.GalleryIndexStyling',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel('headline', classname="full"),
         FieldPanel('introduction', classname="full"),
+        FieldPanel('styling_options'),
     ]
 
     subpage_types = ['GalleryArticlePage']

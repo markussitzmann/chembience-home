@@ -1,5 +1,11 @@
 #!/bin/bash
 set -e
 
-docker-compose down && docker-compose up &
+docker-compose down &&\
+docker volume rm chembience_cmsdb_volume &&\
+rm -rf ./appsite/home/migrations/* &&\
+docker-compose up &
+
+
+
 

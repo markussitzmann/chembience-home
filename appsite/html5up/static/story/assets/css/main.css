@@ -168,11 +168,13 @@ input, select, textarea {
 		-webkit-transition: color 0.2s ease-in-out;
 		-ms-transition: color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out;
+		/*color: #0661fc !important;*/
 		text-decoration: none;
+		font-weight: bold;
 	}
 
-		a:hover {
-			text-decoration: none;
+		a:hover  {
+			color: #2e96fc !important;
 		}
 
 	strong, b {
@@ -324,7 +326,7 @@ input, select, textarea {
 	}
 
 		a:hover {
-			color: #e53f00;
+			color: #0661fc;
 		}
 
 	strong, b {
@@ -2196,8 +2198,8 @@ input, select, textarea {
 		input[type="button"]:hover,
 		button:hover,
 		.button:hover {
-			box-shadow: inset 0 0 0 1px #e53f00;
-			color: #e53f00 !important;
+			box-shadow: inset 0 0 0 1px #2e96fc;
+			color: #2e96fc !important;
 		}
 
 		input[type="submit"]:active,
@@ -2206,8 +2208,8 @@ input, select, textarea {
 		button:active,
 		.button:active {
 			background-color: rgba(71, 211, 229, 0.2);
-			box-shadow: inset 0 0 0 1px #e53f00;
-			color: #e53f00 !important;
+			box-shadow: inset 0 0 0 1px #2e96fc;
+			color: #2e96fc !important;
 		}
 
 		input[type="submit"].primary,
@@ -2225,7 +2227,8 @@ input, select, textarea {
 			input[type="button"].primary:hover,
 			button.primary:hover,
 			.button.primary:hover {
-				background-color: #e53f00;
+				background-color: #2e96fc;
+				color: #ffffff !important;
 			}
 
 			input[type="submit"].primary:active,
@@ -2233,7 +2236,8 @@ input, select, textarea {
 			input[type="button"].primary:active,
 			button.primary:active,
 			.button.primary:active {
-				background-color: #e53f00;
+				background-color: #2e96fc;
+				color: #ffffff !important;
 			}
 
 /* Form */
@@ -6361,7 +6365,7 @@ input, select, textarea {
 		}
 
 			.gallery.style1 a:hover {
-				color: #e53f00;
+				color: #2e96fc;
 			}
 
 		.gallery.style1 strong, .gallery.style1 b {
@@ -6400,8 +6404,8 @@ input, select, textarea {
 			.gallery.style1 input[type="button"]:hover,
 			.gallery.style1 button:hover,
 			.gallery.style1 .button:hover {
-				box-shadow: inset 0 0 0 1px #e53f00;
-				color: #e53f00 !important;
+				box-shadow: inset 0 0 0 1px #2e96fc;
+				color: #2e96fc !important;
 			}
 
 			.gallery.style1 input[type="submit"]:active,
@@ -6410,8 +6414,8 @@ input, select, textarea {
 			.gallery.style1 button:active,
 			.gallery.style1 .button:active {
 				background-color: rgba(71, 211, 229, 0.2);
-				box-shadow: inset 0 0 0 1px #e53f00;
-				color: #e53f00 !important;
+				box-shadow: inset 0 0 0 1px #2e96fc;
+				color: #2e96fc !important;
 			}
 
 			.gallery.style1 input[type="submit"].primary,
@@ -6429,7 +6433,7 @@ input, select, textarea {
 				.gallery.style1 input[type="button"].primary:hover,
 				.gallery.style1 button.primary:hover,
 				.gallery.style1 .button.primary:hover {
-					background-color: #e53f00;
+					background-color: #2e96fc;
 				}
 
 				.gallery.style1 input[type="submit"].primary:active,
@@ -6437,7 +6441,7 @@ input, select, textarea {
 				.gallery.style1 input[type="button"].primary:active,
 				.gallery.style1 button.primary:active,
 				.gallery.style1 .button.primary:active {
-					background-color: #e53f00;
+					background-color: #2e96fc;
 				}
 
 		.gallery.style1 > .forward, .gallery.style1 > .backward {
@@ -6685,7 +6689,7 @@ input, select, textarea {
 		}
 
 			.gallery.style2 a:hover {
-				color: #47D3E5;
+				color: #2e96fc;
 			}
 
 		.gallery.style2 strong, .gallery.style2 b {
@@ -6724,8 +6728,8 @@ input, select, textarea {
 			.gallery.style2 input[type="button"]:hover,
 			.gallery.style2 button:hover,
 			.gallery.style2 .button:hover {
-				box-shadow: inset 0 0 0 1px #e53f00;
-				color: #e53f00 !important;
+				box-shadow: inset 0 0 0 1px #2e96fc;
+				color: #2e96fc!important;
 			}
 
 			.gallery.style2 input[type="submit"]:active,
@@ -6734,8 +6738,8 @@ input, select, textarea {
 			.gallery.style2 button:active,
 			.gallery.style2 .button:active {
 				background-color: rgba(71, 211, 229, 0.2);
-				box-shadow: inset 0 0 0 1px #e53f00;
-				color: #e53f00 !important;
+				box-shadow: inset 0 0 0 1px #2e96fc;
+				color: #2e96fc !important;
 			}
 
 			.gallery.style2 input[type="submit"].primary,
@@ -6753,7 +6757,7 @@ input, select, textarea {
 				.gallery.style2 input[type="button"].primary:hover,
 				.gallery.style2 button.primary:hover,
 				.gallery.style2 .button.primary:hover {
-					background-color: #e53f00;
+					background-color: #2e96fc;
 				}
 
 				.gallery.style2 input[type="submit"].primary:active,
@@ -6761,7 +6765,7 @@ input, select, textarea {
 				.gallery.style2 input[type="button"].primary:active,
 				.gallery.style2 button.primary:active,
 				.gallery.style2 .button.primary:active {
-					background-color: #e53f00;
+					background-color: #2e96fc;
 				}
 
 		.gallery.style2 > .forward, .gallery.style2 > .backward {
@@ -8244,7 +8248,7 @@ input, select, textarea {
 			}
 
 				#wrapper > .invert a:hover {
-					color: #47D3E5;
+					color: #2e96fc;
 				}
 
 			#wrapper > .invert strong, #wrapper > .invert b {
@@ -8287,8 +8291,8 @@ input, select, textarea {
 				#wrapper > .invert input[type="button"]:hover,
 				#wrapper > .invert button:hover,
 				#wrapper > .invert .button:hover {
-					box-shadow: inset 0 0 0 1px #e53f00;
-					color: #e53f00 !important;
+					box-shadow: inset 0 0 0 1px #2e96fc;
+					color: #2e96fc !important;
 				}
 
 				#wrapper > .invert input[type="submit"]:active,
@@ -8297,8 +8301,8 @@ input, select, textarea {
 				#wrapper > .invert button:active,
 				#wrapper > .invert .button:active {
 					background-color: rgba(71, 211, 229, 0.2);
-					box-shadow: inset 0 0 0 1px #e53f00;
-					color: #e53f00 !important;
+					box-shadow: inset 0 0 0 1px #2e96fc;
+					color: #2e96fc !important;
 				}
 
 				#wrapper > .invert input[type="submit"].primary,
@@ -8316,7 +8320,8 @@ input, select, textarea {
 					#wrapper > .invert input[type="button"].primary:hover,
 					#wrapper > .invert button.primary:hover,
 					#wrapper > .invert .button.primary:hover {
-						background-color: #e53f00;
+						background-color: #2e96fc;
+						color: #ffffff !important;
 					}
 
 					#wrapper > .invert input[type="submit"].primary:active,
@@ -8324,7 +8329,8 @@ input, select, textarea {
 					#wrapper > .invert input[type="button"].primary:active,
 					#wrapper > .invert button.primary:active,
 					#wrapper > .invert .button.primary:active {
-						background-color: #e53f00;
+						background-color: #2e96fc;
+						color: #ffffff !important;
 					}
 
 			#wrapper > .invert label {
