@@ -21,7 +21,7 @@
 
         {% if block.block_type == 'gallery_index' %}
             {% with block.value.galleryindexpage as p %}
-            {% include "home/gallery_index_include_page.html" with gallery_index=p articles=p.get_articles %}
+            {% include "home/gallery_include_page.html" with gallery_index=p articles=p.get_articles %}
              {% endwith %}
         {% endif %}
 

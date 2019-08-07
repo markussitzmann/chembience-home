@@ -170,10 +170,12 @@ input, select, textarea {
 		transition: color 0.2s ease-in-out;
 		/*color: #0661fc !important;*/
 		text-decoration: none;
-		font-weight: bold;
+		font-weight: bolder;
 	}
 
-		a:hover  {
+	/*a:before:not(.button) {content: "\02192";}*/
+
+		a:hover {
 			color: #2e96fc !important;
 		}
 

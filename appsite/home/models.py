@@ -36,10 +36,12 @@ class Button(models.Model):
 
     panels = [
         FieldPanel('name'),
-        FieldPanel('size'),
         FieldPanel('url'),
-        FieldPanel('icon'),
-        FieldPanel('primary'),
+        MultiFieldPanel([
+            FieldPanel('size'),
+            FieldPanel('primary'),
+            FieldPanel('icon'),
+        ], heading="Attributes"),
     ]
 
     class Meta:
@@ -64,9 +66,11 @@ class ActionButtons(ClusterableModel, models.Model):
 
     panels = [
         FieldPanel('name'),
-        FieldPanel('small'),
-        FieldPanel('fit'),
-        FieldPanel('stacked'),
+        MultiFieldPanel([
+            FieldPanel('small'),
+            FieldPanel('fit'),
+            FieldPanel('stacked'),
+        ]),
         InlinePanel('buttons', label="Action Buttons"),
     ]
 
@@ -205,7 +209,7 @@ class BannerStyling(StylingBase, StylingColorOptions):
 
 
 @register_snippet
-class GalleryIndexStyling(StylingBase, StylingSizeOptions):
+class GalleryStyling(StylingBase, StylingSizeOptions):
     """
         Gallery Style Options
     """
@@ -519,7 +523,6 @@ class GalleryArticlePage(Page):
         related_name='+'
     )
 
-
     content_panels = Page.content_panels + [
         FieldPanel('headline'),
         FieldPanel('text'),
@@ -531,7 +534,7 @@ class GalleryArticlePage(Page):
         index.SearchField('text'),
     ]
 
-    parent_page_types = ['GalleryIndexPage']
+    parent_page_types = ['GalleryPage']
     subpage_types = []
 
     def get_context(self, request):
@@ -540,7 +543,7 @@ class GalleryArticlePage(Page):
         return context
 
 
-class GalleryIndexPage(Page):
+class GalleryPage(Page):
     """
         Gallery Index Page
     """
@@ -553,7 +556,7 @@ class GalleryIndexPage(Page):
         help_text='Text to describe the page',
         blank=True)
     styling_options = models.ForeignKey(
-        'home.GalleryIndexStyling',
+        'home.GalleryStyling',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -586,7 +589,7 @@ class GalleryIndexPage(Page):
         return pages
 
     def get_context(self, request):
-        context = super(GalleryIndexPage, self).get_context(request)
+        context = super(GalleryPage, self).get_context(request)
         articles = self.paginate(request, self.get_articles())
         context['articles'] = articles
         context['gallery_index'] = self
@@ -688,7 +691,7 @@ class StreamPage(Page):
     content = StreamField([
         ('banner', PageChooserBlock(target_model='home.BannerPage', null=True, blank=True)),
         ('section_index', PageChooserBlock(target_model='home.SectionIndexPage', null=True, blank=True)),
-        ('gallery_index', PageChooserBlock(target_model='home.GalleryIndexPage', null=True, blank=True)),
+        ('gallery', PageChooserBlock(target_model='home.GalleryPage', null=True, blank=True)),
         ('item_index', PageChooserBlock(target_model='home.ItemIndexPage', null=True, blank=True)),
         ('spotlight_index', PageChooserBlock(target_model='home.SpotlightIndexPage', null=True, blank=True)),
     ])
