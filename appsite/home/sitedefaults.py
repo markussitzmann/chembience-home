@@ -13,6 +13,7 @@ style_choices = (
 
 orientation_choices = (
     ('orient-left', 'left'),
+    ('orient-center', 'center'),
     ('orient-right', 'right'),
 )
 
@@ -28,6 +29,7 @@ image_position_choices = (
     ('image-position-right', 'right'),
 )
 
+#TBD
 onload_fade_choices = (
     ('onload-content-fade-up', 'content fade up'),
     ('onload-content-fade-down', 'content fade down'),
@@ -37,6 +39,43 @@ onload_fade_choices = (
     ('onload-image-fade-in', 'image fade in'),
 )
 
+onload_content_fade_choices = (
+    (None, 'none'),
+    ('onload-content-fade-up', 'Up'),
+    ('onload-content-fade-down', 'Down'),
+    ('onload-content-fade-left', 'Left'),
+    ('onload-content-fade-right', 'Right'),
+    ('onload-content-fade-in', 'In'),
+)
+
+onload_image_fade_choices = (
+    (None, 'none'),
+    ('onload-image-fade-up', 'Up'),
+    ('onload-image-fade-down', 'Down'),
+    ('onload-image-fade-left', 'Left'),
+    ('onload-image-fade-right', 'Right'),
+    ('onload-image-fade-in', 'In'),
+)
+
+onscroll_content_fade_choices = (
+    (None, 'none'),
+    ('onscroll-content-fade-up', 'Up'),
+    ('onscroll-content-fade-down', 'Down'),
+    ('onscroll-content-fade-left', 'Left'),
+    ('onscroll-content-fade-right', 'Right'),
+    ('onscroll-content-fade-in', 'In'),
+)
+
+onscroll_image_fade_choices = (
+    (None, 'none'),
+    ('onscroll-image-fade-up', 'Up'),
+    ('onscroll-image-fade-down', 'Down'),
+    ('onscroll-image-fade-left', 'Left'),
+    ('onscroll-image-fade-right', 'Right'),
+    ('onscroll-image-fade-in', 'In'),
+)
+
+#TBD
 onscroll_fade_choices = (
     ('onscroll-content-fade-up', 'content fade up'),
     ('onscroll-content-fade-down', 'content fade down'),

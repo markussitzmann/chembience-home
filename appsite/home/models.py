@@ -108,6 +108,7 @@ class StylingBase(models.Model):
         max_length=30,
         primary_key=True,
     )
+
     panels = [
         FieldPanel('name'),
     ]
@@ -116,10 +117,30 @@ class StylingBase(models.Model):
         return self.name
 
 
-class StylingColorOptions(models.Model):
+class StyleOptions(models.Model):
     """
 
     """
+    style_id = models.AutoField(primary_key=True)
+    style = models.CharField(
+        max_length=30,
+        choices=style_choices,
+        default="style0"
+    )
+
+    panels = [
+        FieldPanel('style'),
+    ]
+
+    def __str__(self):
+        return self.style
+
+
+class ColorOptions(models.Model):
+    """
+
+    """
+    color_id = models.AutoField(primary_key=True)
     color = models.CharField(
         max_length=30,
         choices=color_choices,
@@ -137,11 +158,73 @@ class StylingColorOptions(models.Model):
         ], heading='Basic Styling'),
     ]
 
+    def __str__(self):
+        return self.color
 
-class StylingSizeOptions(models.Model):
+
+class OnloadFadeOptions(models.Model):
+    """
+
+    """
+    onload_fade_id = models.AutoField(primary_key=True)
+    onload_content_fade = models.CharField(
+        max_length=30,
+        choices=onload_content_fade_choices,
+        default=None,
+        verbose_name="Content Fade"
+    )
+    onload_image_fade = models.CharField(
+        max_length=30,
+        choices=onload_image_fade_choices,
+        default=None,
+        verbose_name="Image Fade"
+    )
+
+    panels = [
+        MultiFieldPanel([
+            FieldPanel('onload_content_fade'),
+            FieldPanel('onload_image_fade'),
+        ], heading='Onload fade events'),
+    ]
+
+    def __str__(self):
+        return self.onload_content_fade
+
+
+class OnscrollFadeOptions(models.Model):
+    """
+
+    """
+    onscroll_content_fade_id = models.AutoField(primary_key=True)
+    onscroll_content_fade = models.CharField(
+        max_length=30,
+        choices=onscroll_content_fade_choices,
+        default=None,
+        verbose_name="Content Fade"
+    )
+    onscroll_image_fade = models.CharField(
+        max_length=30,
+        choices=onscroll_image_fade_choices,
+        default=None,
+        verbose_name="Image Fade"
+    )
+
+    panels = [
+        MultiFieldPanel([
+            FieldPanel('onscroll_content_fade'),
+            FieldPanel('onscroll_image_fade'),
+        ], heading='Onscroll fade events'),
+    ]
+
+    def __str__(self):
+        return self.onscroll_content_fade
+
+
+class SizeOptions(models.Model):
     """
         Size Style Options
     """
+    size_id = models.AutoField(primary_key=True)
     size = models.CharField(
         max_length=10,
         choices=(
@@ -156,60 +239,76 @@ class StylingSizeOptions(models.Model):
         FieldPanel('size'),
     ]
 
+    def __str__(self):
+        return self.size
 
-@register_snippet
-class BannerStyling(StylingBase, StylingColorOptions):
+
+class ContentOrientationAndAlignmentOptions(models.Model):
     """
-        Banner Style Options
+
     """
-    style = models.CharField(
-        max_length=30,
-        choices=style_choices[0:5],
-        default="style1"
-    )
+    oa_id = models.AutoField(primary_key=True)
     orientation = models.CharField(
         max_length=30,
         choices=orientation_choices,
-        default="orient-right"
+        default="orient-left",
+        verbose_name="Content to image orientation"
     )
-    content_align = models.CharField(
+
+    alignment = models.CharField(
         max_length=30,
         choices=content_align_choices,
         default="content-align-left",
         null=True,
-        blank=True
+        blank=True,
+        verbose_name = "Content alignment"
     )
+
+    panels = [
+        MultiFieldPanel([
+            FieldPanel('orientation'),
+            FieldPanel('alignment'),
+        ], heading='Content Orientation & Alignment'),
+    ]
+
+
+class ImagePositionOptions(models.Model):
+    """
+
+    """
+    ip_id = models.AutoField(primary_key=True)
     image_position = models.CharField(
         max_length=30,
         choices=image_position_choices,
         null=True,
-        blank=True
-    )
-    onload_fade = models.CharField(
-        max_length=30,
-        choices=onload_fade_choices,
-        null=True,
-        blank=True
-    )
-    onscroll_fade = models.CharField(
-        max_length=30,
-        choices=onscroll_fade_choices,
-        null=True,
-        blank=True
+        blank=True,
+        verbose_name="Image Position"
     )
 
-    panels = StylingBase.panels + StylingColorOptions.panels + [
-        FieldPanel('style'),
-        FieldPanel('orientation'),
-        FieldPanel('content_align'),
-        FieldPanel('image_position'),
-        FieldPanel('onload_fade'),
-        FieldPanel('onscroll_fade'),
+    panels = [
+        MultiFieldPanel([
+            FieldPanel('image_position'),
+        ], heading='Image'),
     ]
 
 
 @register_snippet
-class GalleryStyling(StylingBase, StylingSizeOptions):
+class BannerStyling(StylingBase, StyleOptions, ColorOptions, ContentOrientationAndAlignmentOptions,
+                    ImagePositionOptions, OnloadFadeOptions, OnscrollFadeOptions):
+    """
+        Banner Style Options
+    """
+    panels = StylingBase.panels \
+             + StyleOptions.panels \
+             + ColorOptions.panels \
+             + ContentOrientationAndAlignmentOptions.panels \
+             + ImagePositionOptions.panels \
+             + OnloadFadeOptions.panels \
+             + OnscrollFadeOptions.panels
+
+
+@register_snippet
+class GalleryStyling(StylingBase, SizeOptions):
     """
         Gallery Style Options
     """
@@ -226,7 +325,7 @@ class GalleryStyling(StylingBase, StylingSizeOptions):
     onload_fade_in = models.BooleanField(verbose_name="Fade in on load", default=False)
     onscroll_fade_in = models.BooleanField(verbose_name="Fade in on load", default=False)
 
-    panels = StylingBase.panels + StylingSizeOptions.panels + [
+    panels = StylingBase.panels + SizeOptions.panels + [
         FieldPanel('style'),
         FieldPanel('lightbox_button_text'),
         FieldPanel('onload_fade_in'),

@@ -4,7 +4,7 @@
         {% with banner.styling_options as options %}
 
             <section
-                    class="banner {{ options.style }} {{ options.color|default:"" }} {% if options.invert %} invert{% endif %} {{ options.orientation|default:"" }} {{ options.content_align|default:"" }} {{ options.image_position|default:"" }} {{ options.onload_fade|default:"" }} {{ options.onscroll_fade|default:"" }} {% if banner.fullscreen %}fullscreen{% endif %}">
+                    class="banner {{ options.style }} {{ options.color|default:"" }} {% if options.invert %} invert{% endif %} {{ options.orientation|default:"" }} {{ options.alignment|default:"" }} {{ options.image_position|default:"" }} {{ options.onload_content_fade|default:"" }} {{ options.onload_image_fade_in|default:"" }} {{ options.onscroll_content_fade|default:"" }} {{ options.onscroll_image_fade_in|default:"" }} {% if banner.fullscreen %}fullscreen{% endif %}">
 
                 <div class="content">
                     <h1>{{ banner.headline }}</h1>
