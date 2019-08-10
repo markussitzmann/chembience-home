@@ -171,12 +171,16 @@ class OnloadFadeOptions(models.Model):
         max_length=30,
         choices=onload_content_fade_choices,
         default=None,
+        null=True,
+        blank=True,
         verbose_name="Content Fade"
     )
     onload_image_fade = models.CharField(
         max_length=30,
         choices=onload_image_fade_choices,
         default=None,
+        null=True,
+        blank=True,
         verbose_name="Image Fade"
     )
 
@@ -195,17 +199,21 @@ class OnscrollFadeOptions(models.Model):
     """
 
     """
-    onscroll_content_fade_id = models.AutoField(primary_key=True)
+    onscroll_fade_id = models.AutoField(primary_key=True)
     onscroll_content_fade = models.CharField(
         max_length=30,
         choices=onscroll_content_fade_choices,
         default=None,
+        null=True,
+        blank=True,
         verbose_name="Content Fade"
     )
     onscroll_image_fade = models.CharField(
         max_length=30,
         choices=onscroll_image_fade_choices,
         default=None,
+        null=True,
+        blank=True,
         verbose_name="Image Fade"
     )
 
@@ -243,32 +251,43 @@ class SizeOptions(models.Model):
         return self.size
 
 
-class ContentOrientationAndAlignmentOptions(models.Model):
+class ContentOrientationOptions(models.Model):
     """
 
     """
-    oa_id = models.AutoField(primary_key=True)
+    orientation_id = models.AutoField(primary_key=True)
     orientation = models.CharField(
         max_length=30,
         choices=orientation_choices,
         default="orient-left",
-        verbose_name="Content to image orientation"
-    )
-
-    alignment = models.CharField(
-        max_length=30,
-        choices=content_align_choices,
-        default="content-align-left",
-        null=True,
-        blank=True,
-        verbose_name = "Content alignment"
+        verbose_name="Orientation"
     )
 
     panels = [
         MultiFieldPanel([
             FieldPanel('orientation'),
+        ], heading="Content to Image Orientation"),
+    ]
+
+
+class ContentAlignmentOptions(models.Model):
+    """
+
+    """
+    alignment_id = models.AutoField(primary_key=True)
+    alignment = models.CharField(
+        max_length=30,
+        choices=alignment_choices,
+        default="content-align-left",
+        null=True,
+        blank=True,
+        verbose_name="Alignment"
+    )
+
+    panels = [
+        MultiFieldPanel([
             FieldPanel('alignment'),
-        ], heading='Content Orientation & Alignment'),
+        ], heading='Content Alignment'),
     ]
 
 
@@ -292,19 +311,48 @@ class ImagePositionOptions(models.Model):
     ]
 
 
+class ScreenOptions(models.Model):
+    """
+
+    """
+    screen_id = models.AutoField(primary_key=True)
+    screen = models.CharField(
+        max_length=30,
+        choices=(
+            (None, 'none'),
+            ('fullscreen', 'Fullscreen'),
+            ('halfscreen', 'Halfscreen')
+        ),
+        default="none",
+        null=True,
+        blank=True
+    )
+
+    panels = [
+        MultiFieldPanel([
+            FieldPanel('screen'),
+        ], heading='Screen Size'),
+    ]
+
+    def __str__(self):
+        return self.screen
+
+
 @register_snippet
-class BannerStyling(StylingBase, StyleOptions, ColorOptions, ContentOrientationAndAlignmentOptions,
-                    ImagePositionOptions, OnloadFadeOptions, OnscrollFadeOptions):
+class BannerStyling(StylingBase, StyleOptions, ColorOptions, ContentOrientationOptions, ContentAlignmentOptions,
+                    ImagePositionOptions, OnloadFadeOptions, OnscrollFadeOptions, ScreenOptions):
     """
         Banner Style Options
     """
     panels = StylingBase.panels \
              + StyleOptions.panels \
              + ColorOptions.panels \
-             + ContentOrientationAndAlignmentOptions.panels \
+             + ContentOrientationOptions.panels \
+             + ContentAlignmentOptions.panels \
              + ImagePositionOptions.panels \
              + OnloadFadeOptions.panels \
-             + OnscrollFadeOptions.panels
+             + OnscrollFadeOptions.panels \
+             + ScreenOptions.panels
 
 
 @register_snippet
@@ -353,7 +401,7 @@ class StylingOptions(StylingBase):
     )
     content_align = models.CharField(
         max_length=30,
-        choices=content_align_choices,
+        choices=alignment_choices,
         default="content-align-left",
         null=True,
         blank=True
@@ -426,7 +474,6 @@ class BannerPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    fullscreen = models.BooleanField(verbose_name="Full Screen", default=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('headline'),
@@ -435,7 +482,6 @@ class BannerPage(Page):
         ImageChooserPanel('image'),
         FieldPanel('styling_options'),
         FieldPanel('actions'),
-        FieldPanel('fullscreen'),
     ]
 
     subpage_types = []

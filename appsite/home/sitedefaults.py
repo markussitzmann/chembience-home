@@ -17,7 +17,7 @@ orientation_choices = (
     ('orient-right', 'right'),
 )
 
-content_align_choices = (
+alignment_choices = (
     ('content-align-left', 'left'),
     ('content-align-center', 'center'),
     ('content-align-right', 'right'),
