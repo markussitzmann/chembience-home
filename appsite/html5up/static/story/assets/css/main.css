@@ -177,6 +177,7 @@ input, select, textarea {
 
 		a:hover {
 			color: #2e96fc !important;
+			cursor: pointer;
 		}
 
 	strong, b {

@@ -1,10 +1,10 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-{% with gallery_index.styling_options as options %}
+{% with gallery.styling_options as options %}
 <section class="wrapper style1 align-center">
     <div class="inner">
-        <h2>{{ gallery_index.headline }}</h2>
-        {{ gallery_index.introduction|richtext }}
+        <h2>{{ gallery.headline }}</h2>
+        {{ gallery.introduction|richtext }}
     </div>
     <div class="gallery {{ options.style }} {{ options.size }} {{ options.color }} {% if options.invert %} invert{% endif %}lightbox {% if options.onscroll_fade_in %} onscroll-fade-in{% endif %}{% if options.onload_fade_in %} onload_fade_in{% endif %}">
         {% for article in articles %}

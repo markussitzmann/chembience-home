@@ -22,15 +22,13 @@ class Button(models.Model):
     """
         Button
     """
-    SIZE_CHOICES = (
+    name = models.CharField(max_length=255)
+    url = models.URLField(max_length=255, blank=True, default='')
+    size = models.CharField(max_length=25, choices=(
         ('', 'Default'),
         ('small', 'Small'),
         ('large', 'Large'),
-    )
-
-    name = models.CharField(max_length=255)
-    url = models.URLField(max_length=255, blank=True, default='')
-    size = models.CharField(max_length=25, choices=SIZE_CHOICES, blank=True, default='')
+    ), blank=True, default='')
     icon = models.CharField(max_length=25, blank=True, default='')
     primary = models.BooleanField(default=False)
 
@@ -70,7 +68,7 @@ class ActionButtons(ClusterableModel, models.Model):
             FieldPanel('small'),
             FieldPanel('fit'),
             FieldPanel('stacked'),
-        ]),
+        ], heading="Action Button Group Settings"),
         InlinePanel('buttons', label="Action Buttons"),
     ]
 
@@ -162,18 +160,42 @@ class ColorOptions(models.Model):
         return self.color
 
 
-class OnloadFadeOptions(models.Model):
+class OnloadContentFadeOptions(models.Model):
     """
 
     """
-    onload_fade_id = models.AutoField(primary_key=True)
+    onload_content_fade_id = models.AutoField(primary_key=True)
     onload_content_fade = models.CharField(
         max_length=30,
         choices=onload_content_fade_choices,
         default=None,
         null=True,
         blank=True,
-        verbose_name="Content Fade"
+        verbose_name="Onload Fade"
+    )
+
+    panels = [
+        MultiFieldPanel([
+            FieldPanel('onload_content_fade'),
+        ], heading='Onload Content Fade Events'),
+    ]
+
+    def __str__(self):
+        return self.onload_content_fade
+
+
+class OnloadImageFadeOptions(models.Model):
+    """
+
+    """
+    onload_image_fade_id = models.AutoField(primary_key=True)
+    onload_image_fade = models.CharField(
+        max_length=30,
+        choices=onload_content_fade_choices,
+        default=None,
+        null=True,
+        blank=True,
+        verbose_name="Onload Image Fade"
     )
     onload_image_fade = models.CharField(
         max_length=30,
@@ -186,20 +208,19 @@ class OnloadFadeOptions(models.Model):
 
     panels = [
         MultiFieldPanel([
-            FieldPanel('onload_content_fade'),
             FieldPanel('onload_image_fade'),
-        ], heading='Onload fade events'),
+        ], heading='Onload Image Fade Events'),
     ]
 
     def __str__(self):
-        return self.onload_content_fade
+        return self.onload_image_fade
 
 
-class OnscrollFadeOptions(models.Model):
+class OnscrollContentFadeOptions(models.Model):
     """
 
     """
-    onscroll_fade_id = models.AutoField(primary_key=True)
+    onscroll_content_fade_id = models.AutoField(primary_key=True)
     onscroll_content_fade = models.CharField(
         max_length=30,
         choices=onscroll_content_fade_choices,
@@ -208,6 +229,22 @@ class OnscrollFadeOptions(models.Model):
         blank=True,
         verbose_name="Content Fade"
     )
+
+    panels = [
+        MultiFieldPanel([
+            FieldPanel('onscroll_content_fade'),
+        ], heading='Onscroll Fade Events'),
+    ]
+
+    def __str__(self):
+        return self.onscroll_content_fade
+
+
+class OnscrollImageFadeOptions(models.Model):
+    """
+
+    """
+    onscroll_image_fade_id = models.AutoField(primary_key=True)
     onscroll_image_fade = models.CharField(
         max_length=30,
         choices=onscroll_image_fade_choices,
@@ -219,13 +256,12 @@ class OnscrollFadeOptions(models.Model):
 
     panels = [
         MultiFieldPanel([
-            FieldPanel('onscroll_content_fade'),
             FieldPanel('onscroll_image_fade'),
-        ], heading='Onscroll fade events'),
+        ], heading='Onscroll Image Fade Events'),
     ]
 
     def __str__(self):
-        return self.onscroll_content_fade
+        return self.onscroll_image_fade
 
 
 class SizeOptions(models.Model):
@@ -240,7 +276,7 @@ class SizeOptions(models.Model):
             ('medium', 'Medium'),
             ('big', 'Big'),
         ),
-        default="medium"
+        default='medium'
     )
 
     panels = [
@@ -259,7 +295,7 @@ class ContentOrientationOptions(models.Model):
     orientation = models.CharField(
         max_length=30,
         choices=orientation_choices,
-        default="orient-left",
+        default='orient-left',
         verbose_name="Orientation"
     )
 
@@ -278,7 +314,7 @@ class ContentAlignmentOptions(models.Model):
     alignment = models.CharField(
         max_length=30,
         choices=alignment_choices,
-        default="content-align-left",
+        default='content-align-left',
         null=True,
         blank=True,
         verbose_name="Alignment"
@@ -287,7 +323,7 @@ class ContentAlignmentOptions(models.Model):
     panels = [
         MultiFieldPanel([
             FieldPanel('alignment'),
-        ], heading='Content Alignment'),
+        ], heading='Content Text Alignment'),
     ]
 
 
@@ -299,6 +335,7 @@ class ImagePositionOptions(models.Model):
     image_position = models.CharField(
         max_length=30,
         choices=image_position_choices,
+        default='image-position-left',
         null=True,
         blank=True,
         verbose_name="Image Position"
@@ -320,8 +357,8 @@ class ScreenOptions(models.Model):
         max_length=30,
         choices=(
             (None, 'none'),
-            ('fullscreen', 'Fullscreen'),
-            ('halfscreen', 'Halfscreen')
+            ('fullscreen', 'full screen'),
+            ('halfscreen', 'half screen')
         ),
         default="none",
         null=True,
@@ -340,7 +377,8 @@ class ScreenOptions(models.Model):
 
 @register_snippet
 class BannerStyling(StylingBase, StyleOptions, ColorOptions, ContentOrientationOptions, ContentAlignmentOptions,
-                    ImagePositionOptions, OnloadFadeOptions, OnscrollFadeOptions, ScreenOptions):
+                ImagePositionOptions, OnloadContentFadeOptions, OnloadImageFadeOptions, OnscrollContentFadeOptions,
+                OnscrollImageFadeOptions, ScreenOptions):
     """
         Banner Style Options
     """
@@ -350,100 +388,84 @@ class BannerStyling(StylingBase, StyleOptions, ColorOptions, ContentOrientationO
              + ContentOrientationOptions.panels \
              + ContentAlignmentOptions.panels \
              + ImagePositionOptions.panels \
-             + OnloadFadeOptions.panels \
-             + OnscrollFadeOptions.panels \
+             + OnloadContentFadeOptions.panels \
+             + OnloadImageFadeOptions.panels \
+             + OnscrollContentFadeOptions.panels \
+             + OnscrollImageFadeOptions.panels \
              + ScreenOptions.panels
+
+    class Meta:
+        verbose_name = "Banner Styling"
 
 
 @register_snippet
-class GalleryStyling(StylingBase, SizeOptions):
+class SpotlightStyling(StylingBase, StyleOptions, ColorOptions, ContentOrientationOptions, ContentAlignmentOptions,
+                ImagePositionOptions, OnloadContentFadeOptions, OnloadImageFadeOptions, OnscrollContentFadeOptions,
+                OnscrollImageFadeOptions, ScreenOptions):
+    """
+        SpotlightStyling
+    """
+    panels = StylingBase.panels \
+             + StyleOptions.panels \
+             + ColorOptions.panels \
+             + ContentOrientationOptions.panels \
+             + ContentAlignmentOptions.panels \
+             + ImagePositionOptions.panels \
+             + OnloadContentFadeOptions.panels \
+             + OnloadImageFadeOptions.panels \
+             + OnscrollContentFadeOptions.panels \
+             + OnscrollImageFadeOptions.panels \
+             + ScreenOptions.panels
+
+    class Meta:
+        verbose_name = "Spotlight Styling"
+
+
+@register_snippet
+class GalleryStyling(StylingBase, StyleOptions, SizeOptions):
     """
         Gallery Style Options
     """
-    style = models.CharField(
-        max_length=30,
-        choices=style_choices[0:2],
-        default="style1"
-    )
     lightbox_button_text = models.CharField(
         null=True,
         blank=True,
         max_length=32,
     )
-    onload_fade_in = models.BooleanField(verbose_name="Fade in on load", default=False)
-    onscroll_fade_in = models.BooleanField(verbose_name="Fade in on load", default=False)
+    onload_fade_in = models.BooleanField(verbose_name="Fade In on Load", default=False)
+    onscroll_fade_in = models.BooleanField(verbose_name="Fade In on Scroll", default=False)
 
-    panels = StylingBase.panels + SizeOptions.panels + [
-        FieldPanel('style'),
-        FieldPanel('lightbox_button_text'),
-        FieldPanel('onload_fade_in'),
-        FieldPanel('onscroll_fade_in')
-    ]
+    panels = StylingBase.panels \
+             + StyleOptions.panels \
+             + SizeOptions.panels \
+             + [
+                FieldPanel('lightbox_button_text'),
+                FieldPanel('onload_fade_in'),
+                FieldPanel('onscroll_fade_in')
+            ]
 
     class Meta:
         verbose_name = "Gallery Styling"
 
 
 @register_snippet
-class StylingOptions(StylingBase):
+class ItemStyling(StylingBase, StyleOptions, SizeOptions):
     """
-        Style Options
+        Item Styling
     """
-    # style = models.CharField(
-    #     max_length=30,
-    #     choices=style_choices,
-    #     default="style1"
-    # )
-    orientation = models.CharField(
-        max_length=30,
-        choices=orientation_choices,
-        default="orient-right"
-    )
-    content_align = models.CharField(
-        max_length=30,
-        choices=alignment_choices,
-        default="content-align-left",
-        null=True,
-        blank=True
-    )
-    image_position = models.CharField(
-        max_length=30,
-        choices=image_position_choices,
-        null=True,
-        blank=True
-    )
-    onload_fade = models.CharField(
-        max_length=30,
-        choices=onload_fade_choices,
-        null=True,
-        blank=True
-    )
-    onscroll_fade = models.CharField(
-        max_length=30,
-        choices=onscroll_fade_choices,
-        null=True,
-        blank=True
-    )
-    color_choices = models.CharField(
-        max_length=30,
-        choices=color_choices,
-        null=True,
-        blank=True
-    )
 
-    panels = StylingBase.panels + [
-        FieldPanel('orientation'),
-        FieldPanel('content_align'),
-        FieldPanel('image_position'),
-        FieldPanel('onload_fade'),
-        FieldPanel('onscroll_fade'),
-    ]
+    onload_fade_in = models.BooleanField(verbose_name="Fade In on Load", default=False)
+    onscroll_fade_in = models.BooleanField(verbose_name="Fade In on Scroll", default=False)
 
-    # def __str__(self):
-    #     return self.name
+    panels = StylingBase.panels \
+             + StyleOptions.panels \
+             + SizeOptions.panels \
+             + [
+                FieldPanel('onload_fade_in'),
+                FieldPanel('onscroll_fade_in')
+            ]
 
     class Meta:
-        verbose_name_plural = "Styling Options"
+        verbose_name = "Item Styling"
 
 
 class BannerPage(Page):
@@ -489,6 +511,84 @@ class BannerPage(Page):
     def get_context(self, request):
         context = super(BannerPage, self).get_context(request)
         context['banner'] = self
+        return context
+
+
+class SpotlightPage(Page):
+    """
+        Spotlight Page
+    """
+    content = RichTextField(blank=True)
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    styling_options = models.ForeignKey(
+        'home.SpotlightStyling',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    actions = models.ForeignKey(
+        'home.ActionButtons',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    content_panels = Page.content_panels + [
+        ImageChooserPanel('image'),
+        FieldPanel('content'),
+        FieldPanel('styling_options'),
+        FieldPanel('actions'),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('content'),
+    ]
+
+    parent_page_types = ['SpotlightIndexPage']
+    subpage_types = []
+
+    def get_context(self, request):
+        context = super(SpotlightPage, self).get_context(request)
+        context['spotlight'] = self
+        return context
+
+
+class SpotlightIndexPage(Page):
+    """
+        Spotlight Index Page
+    """
+    subpage_types = ['SpotlightPage']
+
+    def get_spotlights(self):
+        return SpotlightPage.objects.live().descendant_of(self)
+
+    def children(self):
+        return self.get_children().specific().live()
+
+    def paginate(self, request, *args):
+        page = request.GET.get('page')
+        paginator = Paginator(self.get_spotlights(), 12)
+        try:
+            pages = paginator.page(page)
+        except PageNotAnInteger:
+            pages = paginator.page(1)
+        except EmptyPage:
+            pages = paginator.page(paginator.num_pages)
+        return pages
+
+    def get_context(self, request):
+        context = super(SpotlightIndexPage, self).get_context(request)
+        spotlights = self.paginate(request, self.get_spotlights())
+        context['spotlights'] = spotlights
+        context['spotlight_index'] = self
         return context
 
 
@@ -563,84 +663,6 @@ class SectionIndexPage(Page):
         return context
 
 
-class SpotlightPage(Page):
-    """
-        Spotlight Page
-    """
-    content = RichTextField(blank=True)
-    image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-    styling_options = models.ForeignKey(
-        'home.StylingOptions',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-    actions = models.ForeignKey(
-        'home.ActionButtons',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-
-    content_panels = Page.content_panels + [
-        ImageChooserPanel('image'),
-        FieldPanel('content'),
-        FieldPanel('styling_options'),
-        FieldPanel('actions'),
-    ]
-
-    search_fields = Page.search_fields + [
-        index.SearchField('content'),
-    ]
-
-    parent_page_types = ['SpotlightIndexPage']
-    subpage_types = []
-
-    def get_context(self, request):
-        context = super(SpotlightPage, self).get_context(request)
-        context['spotlight'] = self
-        return context
-
-
-class SpotlightIndexPage(Page):
-    """
-        Spotlight Index Page
-    """
-    subpage_types = ['SpotlightPage']
-
-    def get_spotlights(self):
-        return SpotlightPage.objects.live().descendant_of(self)
-
-    def children(self):
-        return self.get_children().specific().live()
-
-    def paginate(self, request, *args):
-        page = request.GET.get('page')
-        paginator = Paginator(self.get_spotlights(), 12)
-        try:
-            pages = paginator.page(page)
-        except PageNotAnInteger:
-            pages = paginator.page(1)
-        except EmptyPage:
-            pages = paginator.page(paginator.num_pages)
-        return pages
-
-    def get_context(self, request):
-        context = super(SpotlightIndexPage, self).get_context(request)
-        spotlights = self.paginate(request, self.get_spotlights())
-        context['spotlights'] = spotlights
-        context['spotlight_index'] = self
-        return context
-
-
 class GalleryArticlePage(Page):
     """
         Gallery Article Page
@@ -652,7 +674,8 @@ class GalleryArticlePage(Page):
     )
     text = models.TextField(
         help_text='Text to describe the page',
-        blank=True)
+        blank=True
+    )
     image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -699,7 +722,8 @@ class GalleryPage(Page):
     )
     introduction = models.TextField(
         help_text='Text to describe the page',
-        blank=True)
+        blank=True
+    )
     styling_options = models.ForeignKey(
         'home.GalleryStyling',
         null=True,
@@ -745,7 +769,7 @@ class ItemPage(Page):
     """
         Item Page
     """
-    icon = models.CharField(max_length=25, blank=True, default='')
+    icon = models.CharField(max_length=30, blank=True, default='')
     headline = models.CharField(
         null=True,
         blank=True,
@@ -763,9 +787,9 @@ class ItemPage(Page):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel('icon'),
         FieldPanel('headline'),
         FieldPanel('text'),
+        FieldPanel('icon'),
         FieldPanel('actions'),
 
     ]
@@ -795,11 +819,18 @@ class ItemIndexPage(Page):
     introduction = models.TextField(
         help_text='Text to describe the page',
         blank=True)
+    styling_options = models.ForeignKey(
+        'home.ItemStyling',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel('headline', classname="full"),
         FieldPanel('introduction', classname="full"),
-
+        FieldPanel('styling_options', classname="full"),
     ]
 
     subpage_types = ['ItemPage']
@@ -844,3 +875,6 @@ class StreamPage(Page):
     content_panels = Page.content_panels + [
         StreamFieldPanel('content'),
     ]
+
+    subpage_types = ['StreamPage']
+

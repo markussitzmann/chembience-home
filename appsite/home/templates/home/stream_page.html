@@ -19,9 +19,9 @@
              {% endwith %}
         {% endif %}
 
-        {% if block.block_type == 'gallery_index' %}
-            {% with block.value.galleryindexpage as p %}
-            {% include "home/gallery_include_page.html" with gallery_index=p articles=p.get_articles %}
+        {% if block.block_type == 'gallery' %}
+            {% with block.value.gallerypage as p %}
+            {% include "home/gallery_include_page.html" with gallery=p articles=p.get_articles %}
              {% endwith %}
         {% endif %}
 

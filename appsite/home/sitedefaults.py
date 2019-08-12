@@ -29,71 +29,57 @@ image_position_choices = (
     ('image-position-right', 'right'),
 )
 
-#TBD
-onload_fade_choices = (
-    ('onload-content-fade-up', 'content fade up'),
-    ('onload-content-fade-down', 'content fade down'),
-    ('onload-content-fade-left', 'content fade left'),
-    ('onload-content-fade-right', 'content fade right'),
-    ('onload-content-fade-in', 'content fade in'),
-    ('onload-image-fade-in', 'image fade in'),
-)
-
 onload_content_fade_choices = (
     (None, 'none'),
-    ('onload-content-fade-up', 'Up'),
-    ('onload-content-fade-down', 'Down'),
-    ('onload-content-fade-left', 'Left'),
-    ('onload-content-fade-right', 'Right'),
-    ('onload-content-fade-in', 'In'),
+    ('onload-content-fade-up', 'up'),
+    ('onload-content-fade-down', 'down'),
+    ('onload-content-fade-left', 'left'),
+    ('onload-content-fade-right', 'right'),
+    ('onload-content-fade-in', 'in'),
 )
 
 onload_image_fade_choices = (
     (None, 'none'),
-    ('onload-image-fade-up', 'Up'),
-    ('onload-image-fade-down', 'Down'),
-    ('onload-image-fade-left', 'Left'),
-    ('onload-image-fade-right', 'Right'),
-    ('onload-image-fade-in', 'In'),
+    ('onload-image-fade-up', 'up'),
+    ('onload-image-fade-down', 'down'),
+    ('onload-image-fade-left', 'left'),
+    ('onload-image-fade-right', 'right'),
+    ('onload-image-fade-in', 'in'),
 )
 
 onscroll_content_fade_choices = (
     (None, 'none'),
-    ('onscroll-content-fade-up', 'Up'),
-    ('onscroll-content-fade-down', 'Down'),
-    ('onscroll-content-fade-left', 'Left'),
-    ('onscroll-content-fade-right', 'Right'),
-    ('onscroll-content-fade-in', 'In'),
+    ('onscroll-content-fade-up', 'up'),
+    ('onscroll-content-fade-down', 'down'),
+    ('onscroll-content-fade-left', 'left'),
+    ('onscroll-content-fade-right', 'right'),
+    ('onscroll-content-fade-in', 'in'),
 )
 
 onscroll_image_fade_choices = (
     (None, 'none'),
-    ('onscroll-image-fade-up', 'Up'),
-    ('onscroll-image-fade-down', 'Down'),
-    ('onscroll-image-fade-left', 'Left'),
-    ('onscroll-image-fade-right', 'Right'),
-    ('onscroll-image-fade-in', 'In'),
-)
-
-#TBD
-onscroll_fade_choices = (
-    ('onscroll-content-fade-up', 'content fade up'),
-    ('onscroll-content-fade-down', 'content fade down'),
-    ('onscroll-content-fade-left', 'content fade left'),
-    ('onscroll-content-fade-right', 'content fade right'),
-    ('onscroll-content-fade-in', 'content fade in'),
-    ('onscroll-image-fade-in', 'image fade in'),
+    ('onscroll-image-fade-up', 'up'),
+    ('onscroll-image-fade-down', 'down'),
+    ('onscroll-image-fade-left', 'left'),
+    ('onscroll-image-fade-right', 'right'),
+    ('onscroll-image-fade-in', 'in'),
 )
 
 color_choices = (
-    ('color0', 'Color 0'),
-    ('color1', 'Color 1'),
-    ('color2', 'Color 2'),
-    ('color3', 'Color 3'),
-    ('color4', 'Color 4'),
-    ('color5', 'Color 5'),
-    ('color6', 'Color 6'),
-    ('color7', 'Color 7'),
+    ('color0', 'color 0'),
+    ('color1', 'color 1'),
+    ('color2', 'color 2'),
+    ('color3', 'color 3'),
+    ('color4', 'color 4'),
+    ('color5', 'color 5'),
+    ('color6', 'color 6'),
+    ('color7', 'color 7'),
+)
+
+screen_choices = (
+    (None, 'none'),
+    ('fullscreen', 'full screen'),
+    ('halfscreen', 'half screen')
 )
 
 heading_levels = [
@@ -104,4 +90,5 @@ heading_levels = [
     ('h5', 'H5'),
     ('h6', 'H6')
 ]
+
 

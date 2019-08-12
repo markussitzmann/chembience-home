@@ -4,3 +4,6 @@ set -e
 ./django-manage-py makemigrations home &&\
 ./django-manage-py migrate &&\
 ./django-manage-py createsuperuser
+
+
+
