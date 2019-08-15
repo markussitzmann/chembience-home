@@ -2,11 +2,5 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
-    <section class="wrapper style1 align-center">
-        <div class="inner">
-            <div class="items style1 medium onscroll-fade-in">
-                {% include "home/item_include_page.html" %}
-            </div>
-        </div>
-    </section>
+    {% include "home/item_index_include_page.html" %}
 {% endblock %}

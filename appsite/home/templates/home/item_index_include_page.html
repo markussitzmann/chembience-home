@@ -1,13 +1,15 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<section class="wrapper style1 align-center">
+{% with options=item_index.styling_options %}
+<section class="wrapper {{ options.color }}  {% if options.invert %} invert{% endif %} style1 align-center">
     <div class="inner">
         <h2>{{ item_index.headline }}</h2>
         <p>{{ item_index.introduction }}</p>
-        <div class="items style1 medium onscroll-fade-in">
+        <div class="items {{ options.style }} {{ options.size }}{% if options.onscroll_fade_in %} onscroll-fade-in{% endif %}{% if options.onload_fade_in %} onload_fade_in{% endif %}">
             {% for item in items %}
                 {% include "home/item_include_page.html" %}
             {% endfor %}
         </div>
     </div>
 </section>
+{% endwith %}

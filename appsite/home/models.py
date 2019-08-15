@@ -422,7 +422,7 @@ class SpotlightStyling(StylingBase, StyleOptions, ColorOptions, ContentOrientati
 
 
 @register_snippet
-class GalleryStyling(StylingBase, StyleOptions, SizeOptions):
+class GalleryStyling(StylingBase, StyleOptions, ColorOptions, SizeOptions):
     """
         Gallery Style Options
     """
@@ -436,6 +436,7 @@ class GalleryStyling(StylingBase, StyleOptions, SizeOptions):
 
     panels = StylingBase.panels \
              + StyleOptions.panels \
+             + ColorOptions.panels \
              + SizeOptions.panels \
              + [
                 FieldPanel('lightbox_button_text'),
@@ -448,7 +449,7 @@ class GalleryStyling(StylingBase, StyleOptions, SizeOptions):
 
 
 @register_snippet
-class ItemStyling(StylingBase, StyleOptions, SizeOptions):
+class ItemStyling(StylingBase, StyleOptions, ColorOptions, SizeOptions):
     """
         Item Styling
     """
@@ -458,6 +459,7 @@ class ItemStyling(StylingBase, StyleOptions, SizeOptions):
 
     panels = StylingBase.panels \
              + StyleOptions.panels \
+             + ColorOptions.panels \
              + SizeOptions.panels \
              + [
                 FieldPanel('onload_fade_in'),
@@ -761,7 +763,7 @@ class GalleryPage(Page):
         context = super(GalleryPage, self).get_context(request)
         articles = self.paginate(request, self.get_articles())
         context['articles'] = articles
-        context['gallery_index'] = self
+        context['gallery'] = self
         return context
 
 
@@ -791,7 +793,6 @@ class ItemPage(Page):
         FieldPanel('text'),
         FieldPanel('icon'),
         FieldPanel('actions'),
-
     ]
 
     search_fields = Page.search_fields + [
@@ -823,14 +824,14 @@ class ItemIndexPage(Page):
         'home.ItemStyling',
         null=True,
         blank=True,
-        on_delete=models.SET_NULL,
+        on_delete=mode.SET_NULL,
         related_name='+'
     )
 
     content_panels = Page.content_panels + [
         FieldPanel('headline', classname="full"),
         FieldPanel('introduction', classname="full"),
-        FieldPanel('styling_options', classname="full"),
+        FieldPanel('styling_options'),
     ]
 
     subpage_types = ['ItemPage']
@@ -876,5 +877,12 @@ class StreamPage(Page):
         StreamFieldPanel('content'),
     ]
 
-    subpage_types = ['StreamPage']
+    subpage_types = [
+        'StreamPage',
+        'BannerPage',
+        'SpotlightIndexPage',
+        'SectionIndexPage',
+        'GalleryPage',
+        'ItemIndexPage'
+    ]
 

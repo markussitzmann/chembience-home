@@ -1,8 +1,7 @@
 {% extends "home/assets.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags wagtailuserbar %}
 
-{% block content %}
-
+{% block content %}{% wagtailuserbar %}
     <div id="wrapper" class="divided">
 
     {% for block in page.content %}
