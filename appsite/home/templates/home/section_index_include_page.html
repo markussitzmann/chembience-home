@@ -1,6 +1,7 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<section class="wrapper style1 align-center">
+{% with section_index.styling_options as options %}
+<section class="wrapper style1 {{ options.color }}{% if options.invert %} invert{% endif %} align-center">
     <div class="inner">
         <h2>{{ section_index.headline }}</h2>
         <p>{{ section_index.introduction }}</p>
@@ -11,4 +12,6 @@
         </div>
     </div>
 </section>
+{% endwith %}
+
 

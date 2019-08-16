@@ -1,6 +1,7 @@
 {% extends "home/assets.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
+{% comment %}
 {% block content %}
     <div id="wrapper" class="divided">
         <div class="inner">
@@ -10,5 +11,8 @@
         </div>
     </div>
 {% endblock %}
+{% endcomment %}
 
-
+{% block content %}
+    {% include "home/section_include_page.html" with header=section.header separator=section.separator content=section.content %}
+{% endblock %}

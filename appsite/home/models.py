@@ -470,6 +470,19 @@ class ItemStyling(StylingBase, StyleOptions, ColorOptions, SizeOptions):
         verbose_name = "Item Styling"
 
 
+@register_snippet
+class SectionStyling(StylingBase, ColorOptions):
+    """
+        Item Styling
+    """
+
+    panels = StylingBase.panels \
+             + ColorOptions.panels
+
+    class Meta:
+        verbose_name = "Section Styling"
+
+
 class BannerPage(Page):
     """
         Banner Page
@@ -632,10 +645,18 @@ class SectionIndexPage(Page):
     introduction = models.TextField(
         help_text='Text to describe the page',
         blank=True)
+    styling_options = models.ForeignKey(
+        'home.SectionStyling',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel('headline', classname="full"),
         FieldPanel('introduction', classname="full"),
+        FieldPanel('styling_options')
     ]
 
     subpage_types = ['SectionPage']
@@ -824,7 +845,7 @@ class ItemIndexPage(Page):
         'home.ItemStyling',
         null=True,
         blank=True,
-        on_delete=mode.SET_NULL,
+        on_delete=models.SET_NULL,
         related_name='+'
     )
 

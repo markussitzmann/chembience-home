@@ -8267,7 +8267,7 @@ input, select, textarea {
 			}
 
 			#wrapper > .invert code {
-				background: rgba(255, 255, 255, 0.125);
+				/*background: rgba(255, 255, 255, 0.125);*/
 				border-color: white;
 			}
 
@@ -8567,7 +8567,7 @@ input, select, textarea {
 		}
 
 		#wrapper > .color7 {
-			background-color: #6ba78c;
+			background-color: #22a741;
 		}
 
 		#wrapper.divided > * {
