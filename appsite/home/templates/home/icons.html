@@ -1,0 +1,7 @@
+<ul class="icons">
+    {% for icon in icons %}
+        {% with icon.button as button %}
+            <li>{% include "home/icon.html" %}</li>
+        {% endwith %}
+    {% endfor %}
+</ul>

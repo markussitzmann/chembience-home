@@ -2,7 +2,7 @@
     {% for action in action_buttons %}
         {% with action.button as button %}
             <li>
-                <a href="{{ button.url }}" class="button{% if button.primary %} primary{% endif %} {{ button.size|default:"" }}{% if actions.fit %} fit{% endif %} {{ add_button_attributes }}{% if button.icon %} icon {{ button.icon }}{% endif %}">{{ button.name }}</a>
+                {% include "home/button.html" %}
             </li>
         {% endwith %}
     {% endfor %}

@@ -38,6 +38,11 @@
 
     {% endfor %}
 
+    {% if page.footer %}
+        {% include "home/footer_include_page.html" with footer=page.footer %}
+    {% endif %}
+
+
     </div>
 
 {% endblock content %}

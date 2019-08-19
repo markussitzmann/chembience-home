@@ -1,0 +1,12 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% with options=footer.styling_options %}
+<footer class="wrapper {{ options.color }}  {% if options.invert %} invert{% endif %} style1 align-center">
+    <div class="inner">
+        {% if footer.icons %}
+            {% include "home/icons.html" with icons=footer.icons.buttons.all %}
+        {% endif %}
+        {{ footer.text|richtext }}
+    </div>
+</footer>
+{% endwith %}

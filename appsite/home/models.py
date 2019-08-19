@@ -98,6 +98,45 @@ class ActionButton(Orderable, models.Model):
         return self.action.name + "->" + self.button.name
 
 
+@register_snippet
+class IconButtons(ClusterableModel, models.Model):
+    """
+        Icon Buttons
+    """
+    name = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('name'),
+        InlinePanel('buttons', label="Icon Buttons"),
+    ]
+
+    class Meta:
+        verbose_name = "Icon Button"
+        verbose_name_plural = "Icon Buttons"
+
+    def __str__(self):
+        return self.name
+
+
+class IconButton(Orderable, models.Model):
+    """
+        IconButtons
+    """
+    icon = ParentalKey('home.IconButtons', on_delete=models.CASCADE, related_name='buttons')
+    button = models.ForeignKey('home.Button', on_delete=models.CASCADE, related_name='+')
+
+    class Meta:
+        verbose_name = "Icon Button"
+
+    panels = [
+        SnippetChooserPanel('button'),
+    ]
+
+    def __str__(self):
+        return self.icon.name + "->" + self.button.name
+
+
+
 class StylingBase(models.Model):
     """
 
@@ -483,6 +522,19 @@ class SectionStyling(StylingBase, ColorOptions):
         verbose_name = "Section Styling"
 
 
+@register_snippet
+class FooterStyling(StylingBase, ColorOptions):
+    """
+        Footer Styling
+    """
+
+    panels = StylingBase.panels \
+             + ColorOptions.panels
+
+    class Meta:
+        verbose_name = "Footer Styling"
+
+
 class BannerPage(Page):
     """
         Banner Page
@@ -799,7 +851,6 @@ class ItemPage(Page):
         max_length=255,
     )
     text = models.TextField(
-        help_text='Text to describe the page',
         blank=True)
     actions = models.ForeignKey(
         'home.ActionButtons',
@@ -882,10 +933,53 @@ class ItemIndexPage(Page):
         return context
 
 
+class FooterPage(Page):
+    """
+        Footer Page
+    """
+    text = RichTextField(blank=True)
+    icons = models.ForeignKey(
+        'home.IconButtons',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    styling_options = models.ForeignKey(
+        'home.FooterStyling',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('styling_options'),
+        FieldPanel('text'),
+        FieldPanel('icons'),
+    ]
+
+    subpage_types = []
+
+    def get_context(self, request):
+        context = super(FooterPage, self).get_context(request)
+        context['footer'] = self
+        return context
+
+
 class StreamPage(Page):
     """
         Home Stream Page
     """
+    footer = models.ForeignKey(
+        'home.FooterPage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
     content = StreamField([
         ('banner', PageChooserBlock(target_model='home.BannerPage', null=True, blank=True)),
         ('section_index', PageChooserBlock(target_model='home.SectionIndexPage', null=True, blank=True)),
@@ -895,6 +989,7 @@ class StreamPage(Page):
     ])
 
     content_panels = Page.content_panels + [
+        FieldPanel('footer'),
         StreamFieldPanel('content'),
     ]
 
