@@ -55,6 +55,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'dbbackup'
+
 ]
 
 MIDDLEWARE = [
@@ -186,6 +189,12 @@ WAGTAIL_CODE_BLOCK_THEME = None
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = 'http://example.com'
+#BASE_URL = 'http://example.com'
 
 #HTML_MINIFY = True
+
+
+BACKUP_ROOT = os.path.join("/home/app", 'backup')
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': BACKUP_ROOT}

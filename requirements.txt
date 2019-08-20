@@ -5,3 +5,4 @@ wagtail>=2.6.1
 wagtailfontawesome
 wagtailcodeblock
 elasticsearch>=6.0.0,<6.6.1
+django-dbbackup>=3
