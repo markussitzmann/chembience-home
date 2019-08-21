@@ -1,9 +1,11 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 <section>
+    {% if header %}
     <header>
         <h3>{{ header }}</h3>
     </header>
+    {% endif %}
     <div class="content">
         {% if separator %}
             <hr/>

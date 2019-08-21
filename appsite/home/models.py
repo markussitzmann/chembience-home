@@ -663,7 +663,7 @@ class SectionPage(Page):
     """
         Section Page
     """
-    header = models.CharField(max_length=255)
+    header = models.CharField(max_length=255, blank=True, null=True)
     content = StreamField(
         BaseStreamBlock(), verbose_name="Page Content", blank=True
     )
