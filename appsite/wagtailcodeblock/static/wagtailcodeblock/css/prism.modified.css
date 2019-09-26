@@ -112,7 +112,7 @@ pre[data-line] {
     padding: inherit 0;
     margin-top: 1em;
     /*background: hsla(24, 20%, 50%, .08);*/
-    background: linear-gradient(to right, hsla(24, 20%, 50%, .1) 70%, hsla(24, 20%, 50%, 0));
+    background: linear-gradient(to right, hsla(325, 10%, 75%, 0.19) 70%, hsla(325, 10%, 75%, 0.19));
     pointer-events: none;
     line-height: inherit;
     white-space: pre
@@ -159,7 +159,7 @@ pre[class*="language-"].line-numbers > code {
 .line-numbers .line-numbers-rows {
     position: absolute;
     pointer-events: none;
-    top: 0;
+    top: -1px;
     font-size: 100%;
     left: -3.8em;
     width: 3em;

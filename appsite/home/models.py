@@ -631,6 +631,7 @@ class SpotlightIndexPage(Page):
     """
         Spotlight Index Page
     """
+
     subpage_types = ['SpotlightPage']
 
     def get_spotlights(self):
@@ -676,6 +677,7 @@ class SectionPage(Page):
         index.SearchField('content'),
     ]
 
+    subpage_types = []
     parent_page_types = ['SectionIndexPage']
 
     def get_context(self, request):
@@ -998,6 +1000,7 @@ class StreamPage(Page):
         'SpotlightIndexPage',
         'SectionIndexPage',
         'GalleryPage',
-        'ItemIndexPage'
+        'ItemIndexPage',
+        'FooterPage'
     ]
 

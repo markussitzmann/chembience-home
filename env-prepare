@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+test -f .env && source .env
+
 CUID="$(stat -c %u ~)"
 CGID="$(stat -c %g ~)"
 

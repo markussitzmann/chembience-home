@@ -50,6 +50,16 @@ class BlockQuote(StructBlockWithSeparator):
         template = "home/blocks/blockquote.html"
 
 
+class ExtendedCodeBlock(CodeBlock, StructBlockWithSeparator):
+
+    show_lines_numbers = BooleanBlock(required=False, label='Show line numbers')
+    highlight_lines = CharBlock(
+        blank=True, required=False, label='Highlight Lines', help_text='1-2, 5, 9-20')
+    line_offset = CharBlock(
+        blank=True, required=False, label='Line Offset', help_text='40')
+
+
+
 class BaseStreamBlock(StreamBlock):
     """
     """
@@ -79,7 +89,8 @@ class BaseStreamBlock(StreamBlock):
             'autoColumnSize': False,
         }
     )
-    code = CodeBlock(label='Code')
+    code = ExtendedCodeBlock(label='Code')
+
 
 
 

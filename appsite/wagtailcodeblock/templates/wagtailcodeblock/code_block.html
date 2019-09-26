@@ -1,6 +1,9 @@
 {% load static wagtailcodeblock_tags %}
 {% spaceless %}
     {% load_prism_theme %}
+    {% if self.separator %}
+    <hr/>
+    {% endif %}
     {% for key, val in self.items %}
         {% if key == "language" %}
             <script>
@@ -8,7 +11,7 @@
             </script>
         {% endif %}
         {% if key == "code" %}
-            <pre class="line-numbers" data-line="10-20">
+            <pre {% if self.show_lines_numbers %}class="line-numbers"{% if self.highlight_lines %} data-line="{{ self.highlight_lines }}"{% endif %}{% if self.line_offset %} data-start="{{ self.line_offset }}"{% endif %}{% endif %}>
                 <code id="target-element-current">{{ val }}</code>
             </pre>
             <script>
