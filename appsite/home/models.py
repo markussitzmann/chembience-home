@@ -136,7 +136,6 @@ class IconButton(Orderable, models.Model):
         return self.icon.name + "->" + self.button.name
 
 
-
 class StylingBase(models.Model):
     """
 
