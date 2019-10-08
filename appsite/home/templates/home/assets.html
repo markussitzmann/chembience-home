@@ -4,8 +4,7 @@
 {% load wagtailuserbar %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'wagtailcodeblock/css/prism.modified.css' %}" />
-    <link rel="stylesheet" href="{% static 'wagtailcodeblock/css/prism.tomorrow.modified.css' %}" />
+    <link rel="stylesheet" href="{% static 'wagtailcodeblock/css/prism.command.css' %}" />
     <link rel="stylesheet" href="{% static "story/assets/css/main.css" %}"/>
 {% endblock %}
 
@@ -21,5 +20,5 @@
     <script src="{% static "story/assets/js/breakpoints.min.js" %}"></script>
     <script src="{% static "story/assets/js/util.js" %}"></script>
     <script src="{% static "story/assets/js/main.js" %}"></script>
-    <script src="{% static 'wagtailcodeblock/js/prism.js' %}" type='text/javascript'></script>
+    <script src="{% static 'wagtailcodeblock/js/prism.command.js' %}" type='text/javascript'></script>
 {% endblock %}

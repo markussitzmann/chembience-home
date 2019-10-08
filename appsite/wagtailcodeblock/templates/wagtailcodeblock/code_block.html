@@ -11,7 +11,16 @@
             </script>
         {% endif %}
         {% if key == "code" %}
-            <pre {% if self.show_lines_numbers %}class="line-numbers"{% if self.highlight_lines %} data-line="{{ self.highlight_lines }}"{% endif %}{% if self.line_offset %} data-start="{{ self.line_offset }}"{% endif %}{% endif %}>
+            <pre
+                    {% if self.show_line_numbers %}class="line-numbers"
+                        {% if self.highlight_lines %} data-line="{{ self.highlight_lines }}"{% endif %}
+                        {% if self.line_offset %} data-start="{{ self.line_offset }}"{% endif %}
+                    {% endif %}
+                    {% if self.command_line %}class="command-line"
+                        {% if self.command_line_user %} data-user="{{ self.command_line_user }}"{% endif %}
+                        {% if self.command_line_host %} data-host="{{ self.command_line_host }}"{% endif %}
+                        {% if self.output_line_numbers %} data-output="{{ self.output_line_numbers  }}"{% endif %}
+                    {% endif %}>
                 <code id="target-element-current">{{ val }}</code>
             </pre>
             <script>

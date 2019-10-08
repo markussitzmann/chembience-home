@@ -4,7 +4,7 @@ from wagtail.embeds.blocks import EmbedBlock
 from wagtail.core.blocks import (
     CharBlock, ChoiceBlock, RichTextBlock, StreamBlock, StructBlock, TextBlock,
     BooleanBlock)
-from wagtailcodeblock.blocks import CodeBlock
+from base.CodeBlocks import CodeBlock
 
 from home.sitedefaults import heading_levels
 
@@ -40,6 +40,7 @@ class HeadingBlock(StructBlockWithSeparator):
 
 class BlockQuote(StructBlockWithSeparator):
     """
+
     """
     text = TextBlock()
     attribute_name = CharBlock(
@@ -51,13 +52,42 @@ class BlockQuote(StructBlockWithSeparator):
 
 
 class ExtendedCodeBlock(CodeBlock, StructBlockWithSeparator):
+    """
 
-    show_lines_numbers = BooleanBlock(required=False, label='Show line numbers')
-    highlight_lines = CharBlock(
-        blank=True, required=False, label='Highlight Lines', help_text='1-2, 5, 9-20')
-    line_offset = CharBlock(
-        blank=True, required=False, label='Line Offset', help_text='40')
+    """
+    show_line_numbers = BooleanBlock(required=False, label='Show line numbers')
+    highlight_lines = CharBlock(blank=True, required=False, label='Highlight Lines', help_text='1-2, 5, 9-20')
+    line_offset = CharBlock(blank=True, required=False, label='Line Offset', help_text='40')
 
+
+class ExtendedBashBlock(CodeBlock, StructBlockWithSeparator):
+    """
+
+    """
+    command_line = BooleanBlock(required=False, label='Show shell commands/output')
+    command_line_user = CharBlock(blank=True, required=False, label='Command line user')
+    command_line_host = CharBlock(blank=True, required=False, label='Command line host')
+    output_line_numbers = CharBlock(blank=True, required=False, label='Output Lines', help_text='1-2, 5, 9-20')
+
+    def __init__(self, **kwargs):
+
+        self.INCLUDED_LANGUAGES = (
+            ('bash', 'Bash'),
+        )
+
+        language_choices, language_default = self.get_language_choice_list(language='bash')
+
+        local_blocks = [
+            ('language', ChoiceBlock(
+                choices=language_choices,
+                help_text='Coding language',
+                label='Language',
+                default=language_default,
+                identifier='language',
+            )),
+            ('code', TextBlock(label='Code', identifier='code')),
+        ]
+        super().__init__(local_blocks, extend=False, **kwargs)
 
 
 class BaseStreamBlock(StreamBlock):
@@ -74,7 +104,7 @@ class BaseStreamBlock(StreamBlock):
         help_text='Insert an embed URL e.g https://www.youtube.com/embed/SGJFWirQ3ks',
         icon="fa-s15",
         template="home/blocks/embed_block.html")
-    table = TableBlock(
+    table_block = TableBlock(
         default_table_options={
             'minSpareRows': 0,
             'startRows': 3,
@@ -89,7 +119,8 @@ class BaseStreamBlock(StreamBlock):
             'autoColumnSize': False,
         }
     )
-    code = ExtendedCodeBlock(label='Code')
+    code_block = ExtendedCodeBlock(label='Code')
+    bash_block = ExtendedBashBlock(label='Bash')
 
 
 
