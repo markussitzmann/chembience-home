@@ -987,7 +987,9 @@ class StreamPage(Page):
         ('gallery', PageChooserBlock(target_model='home.GalleryPage', null=True, blank=True)),
         ('item_index', PageChooserBlock(target_model='home.ItemIndexPage', null=True, blank=True)),
         ('spotlight_index', PageChooserBlock(target_model='home.SpotlightIndexPage', null=True, blank=True)),
-    ])
+    ],
+        null=True,
+        blank=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('footer'),
