@@ -846,13 +846,12 @@ class ItemPage(Page):
         Item Page
     """
     icon = models.CharField(max_length=30, blank=True, default='')
-    headline = models.CharField(
-        null=True,
-        blank=True,
-        max_length=255,
-    )
-    text = models.TextField(
-        blank=True)
+    # headline = models.CharField(
+    #     null=True,
+    #     blank=True,
+    #     max_length=255,
+    # )
+    text = RichTextField(blank=True)
     actions = models.ForeignKey(
         'home.ActionButtons',
         null=True,
@@ -862,7 +861,7 @@ class ItemPage(Page):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel('headline'),
+        # FieldPanel('headline'),
         FieldPanel('text'),
         FieldPanel('icon'),
         FieldPanel('actions'),

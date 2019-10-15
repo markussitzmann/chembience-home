@@ -1,9 +1,12 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 <section>
+
+
     <span class="icon style2 major {% if item.icon %} icon {{ item.icon }}{% endif %}"></span>
-    <h3>{{ item.headline }}</h3>
-    <p>{{ item.text }}</p>
+{#    <h3>{{ item.headline }}</h3>#}
+{#    <p>{{ item.text }}</p>#}
+    {{ item.text|safe }}
     {% if item.actions %}
         {% include "home/actions.html" with stacked=item.actions.stacked fit=item.actions.fit action_buttons=item.actions.buttons.all add_action_attributes="fit" %}
     {% endif %}
